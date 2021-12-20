@@ -18,7 +18,7 @@ class UserInput extends React.Component {
 
   async handleCreateUser() {
     if (this.state.userName !== "") {
-      await axios.post("http://localhost:3000/user", { userName: this.state.userName }).then((res) => {
+      await axios.post("http://localhost:3000/users", { userName: this.state.userName }).then((res) => {
         console.log(res);
         this.props.updateCurrentUser(res.data);
         this.setState({ userName: "" });
@@ -31,7 +31,7 @@ class UserInput extends React.Component {
 
   async handleSetUser() {
     if (this.state.userName !== "") {
-      await axios.get(`http://localhost:3000/user/${this.state.userName}`).then((res) => {
+      await axios.get(`http://localhost:3000/users/${this.state.userName}`).then((res) => {
         const { data } = res;
         if (data) {
           this.props.updateCurrentUser(data);
