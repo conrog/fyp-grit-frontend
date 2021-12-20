@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import "./WorkoutList.css";
+// import "./WorkoutList.css";
 
 class WorkoutList extends React.Component {
   constructor(props) {
@@ -64,14 +64,16 @@ class WorkoutList extends React.Component {
     let { itemName, itemIndex } = this.props;
     return (
       <div>
-        <h1>{this.props.title}</h1>
-        <div className="gridContainer">
+        <h2>Workouts:</h2>
+        <div className="grid grid-cols-1 pt-2">
           {this.state.items.map((item) => {
             return (
-              <div className="gridItem" key={item[itemIndex]}>
-                <p>{item[itemName]}</p>
+              <div className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex" key={item[itemIndex]}>
+                <p className="mb-2">{item[itemName]}</p>
+                <div className="flex-grow"></div>
                 <input
                   type="button"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-2 rounded shadow cursor-pointer mr-1 w-20"
                   value={this.ifLikedWorkout(item) ? "Unlike" : "Like"}
                   onClick={async () => {
                     if (!this.ifLikedWorkout(item)) {
