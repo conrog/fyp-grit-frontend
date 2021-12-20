@@ -46,7 +46,7 @@ class App extends React.Component {
 
   async getLikedWorkouts() {
     await axios
-      .get(`http://localhost:3000/liked-workouts/${this.state.currentUser.userId}`)
+      .get(`http://localhost:3000/workouts/liked/${this.state.currentUser.userId}`)
       .then((res) => {
         this.setState({ likedItems: res.data });
       })

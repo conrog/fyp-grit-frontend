@@ -36,7 +36,7 @@ class WorkoutList extends React.Component {
     const workoutId = workout.workout_id;
     const { currentUser } = this.props;
     await axios
-      .post(`http://localhost:3000/workout/${workoutId}/like`, { userId: currentUser.userId })
+      .post(`http://localhost:3000/workouts/${workoutId}/like`, { userId: currentUser.userId })
       .then((res) => {
         // console.log(res);
       })
@@ -50,7 +50,7 @@ class WorkoutList extends React.Component {
     const workoutId = workout.workout_id;
     const { currentUser } = this.props;
     await axios
-      .delete(`http://localhost:3000/workout/${workoutId}/like`, { data: { userId: currentUser.userId } })
+      .delete(`http://localhost:3000/workouts/${workoutId}/like`, { data: { userId: currentUser.userId } })
       .then((res) => {
         console.log(res);
       })
