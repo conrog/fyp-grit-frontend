@@ -60,9 +60,11 @@ class App extends React.Component {
     if (this.state.currentUser.userName !== "") {
       list = (
         <div>
-          <ReccomendedWorkoutsList reccomendedWorkouts={this.state.reccomendedWorkouts} />
+          <ReccomendedWorkoutsList
+            reccomendedWorkouts={this.state.reccomendedWorkouts}
+            getRecommendations={this.getRecommendations}
+          />
           <WorkoutList
-            title="Workouts:"
             itemsEndpoint="http://localhost:3000/workouts"
             itemIndex="workout_id"
             itemName="workout_name"
@@ -75,17 +77,24 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
-        <h1>GRIT Workout Reccomender System:</h1>
-        <h2>Current User: {this.state.currentUser.userName === "" ? "N/A" : this.state.currentUser.userName}</h2>
+      <div className="mx-auto w-50">
+        <h1 className="text-center my-4">GRIT Workout Reccomender System:</h1>
+        <h2 className="my-4">
+          Current User: {this.state.currentUser.userName === "" ? "N/A" : this.state.currentUser.userName}
+        </h2>
         <UserInput updateCurrentUser={this.updateCurrentUser} getLikedWorkouts={this.getLikedWorkouts} />
-        <input type="button" value="Get Users" onClick={this.getUsers}></input>
-        <input type="button" value="Get Reccomendations" onClick={this.getRecommendations}></input>
-        <ul>
+        <input
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-2 rounded shadow cursor-pointer mr-1"
+          value="Show Available Users"
+          onClick={this.getUsers}
+        ></input>
+        {this.state.users.length > 0 ? <h2 className="mt-2">Available Users:</h2> : ""}
+        <div className="grid grid-cols-3 mb-2 w-1/2">
           {this.state.users.map((user) => {
-            return <li key={user.user_id}>{user.user_name}</li>;
+            return <div key={user.user_id}>{user.user_name}</div>;
           })}
-        </ul>
+        </div>
         {list}
       </div>
     );

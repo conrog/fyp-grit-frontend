@@ -1,6 +1,7 @@
 import React from "react";
-import "./UserInput.css";
+// import "./UserInput.css";
 import axios from "axios";
+import "../index.css";
 
 class UserInput extends React.Component {
   constructor(props) {
@@ -47,15 +48,26 @@ class UserInput extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="input-container">
+        <div className="flex mb-2 h-8">
           <input
+            className="border flex-initial w-84 mr-1 p-1 shadow"
             type="text"
             placeholder="Enter username..."
             value={this.state.userName}
             onChange={this.handleChange}
           ></input>
-          <input type="button" value="Set User" onClick={this.handleSetUser}></input>
-          <input type="button" value="Create User" onClick={this.handleCreateUser}></input>
+          <input
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-2 rounded shadow cursor-pointer mr-1"
+            type="button"
+            value="Set User"
+            onClick={this.handleSetUser}
+          ></input>
+          <input
+            className="flex-initial bg-blue-500 hover:bg-blue-700 text-white font-semibold px-2 rounded shadow cursor-pointer "
+            type="button"
+            value="Create User"
+            onClick={this.handleCreateUser}
+          ></input>
         </div>
       </div>
     );
