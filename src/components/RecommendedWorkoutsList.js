@@ -1,5 +1,3 @@
-// import "./WorkoutList.css";
-
 const ReccomendedWorkoutsList = (props) => {
   const { reccomendedWorkouts, getRecommendations } = props;
   let content = <p></p>;

@@ -1,7 +1,6 @@
 import React from "react";
-import "./App.css";
-import { UserInput, WorkoutList, ReccomendedWorkoutsList } from "./components";
 import axios from "axios";
+import { UserInput, WorkoutList, ReccomendedWorkoutsList } from "./components";
 
 class App extends React.Component {
   constructor(props) {
