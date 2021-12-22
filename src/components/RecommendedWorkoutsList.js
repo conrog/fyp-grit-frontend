@@ -25,16 +25,7 @@ const ReccomendedWorkoutsList = (props) => {
         ></input>
       </div>
 
-      <div className="grid grid-cols-1 pt-2">
-        {content}
-        {/* {reccomendedWorkouts.map((workout) => {
-          return (
-            <div key={workout.workout_id} className="gridItem">
-              <p>{workout.workout_name}</p>
-            </div>
-          );
-        })} */}
-      </div>
+      <div className="grid grid-cols-1 pt-2">{content}</div>
     </div>
   );
 };

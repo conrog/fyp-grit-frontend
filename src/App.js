@@ -64,9 +64,6 @@ class App extends React.Component {
             getRecommendations={this.getRecommendations}
           />
           <WorkoutList
-            itemsEndpoint="http://localhost:3000/workouts"
-            itemIndex="workout_id"
-            itemName="workout_name"
             likedItems={this.state.likedItems}
             currentUser={this.state.currentUser}
             getLikedWorkouts={this.getLikedWorkouts}

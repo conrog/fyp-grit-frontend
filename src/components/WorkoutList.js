@@ -12,7 +12,7 @@ class WorkoutList extends React.Component {
   }
 
   getItems() {
-    axios.get(this.props.itemsEndpoint).then((res) => {
+    axios.get("http://localhost:3000/workouts").then((res) => {
       this.setState({ items: res.data });
     });
   }
@@ -62,28 +62,27 @@ class WorkoutList extends React.Component {
   }
 
   render() {
-    let { itemName, itemIndex } = this.props;
     return (
       <div>
         <h2>Workouts:</h2>
         <div className="grid grid-cols-1 pt-2">
-          {this.state.items.map((item) => {
+          {this.state.items.map((workout) => {
             return (
-              <div className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex" key={item[itemIndex]}>
-                <p className="mb-2">{item[itemName]}</p>
+              <div className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex" key={workout.workout_id}>
+                <p className="mb-2">{workout.workout_name}</p>
                 <div className="flex-grow"></div>
                 <button
-                  title={this.ifLikedWorkout(item) ? "Unlike" : "Like"}
+                  title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
                   className="hover:bg-blue-200 font-semibold px-2 rounded shadow cursor-pointer mr-1"
                   onClick={() => {
-                    if (!this.ifLikedWorkout(item)) {
-                      this.likeWorkout(item);
+                    if (!this.ifLikedWorkout(workout)) {
+                      this.likeWorkout(workout);
                     } else {
-                      this.unikeWorkout(item);
+                      this.unikeWorkout(workout);
                     }
                   }}
                 >
-                  {this.ifLikedWorkout(item) ? (
+                  {this.ifLikedWorkout(workout) ? (
                     <ThumbUpIconSolid className="h-5 w-5 text-blue-500" />
                   ) : (
                     <ThumbUpIcon className="h-5 w-5 text-blue-500" />
