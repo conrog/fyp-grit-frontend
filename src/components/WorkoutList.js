@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
-// import "./WorkoutList.css";
 
 class WorkoutList extends React.Component {
   constructor(props) {
