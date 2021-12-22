@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { ThumbUpIcon } from "@heroicons/react/outline";
+import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 // import "./WorkoutList.css";
 
 class WorkoutList extends React.Component {
@@ -71,18 +73,23 @@ class WorkoutList extends React.Component {
               <div className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex" key={item[itemIndex]}>
                 <p className="mb-2">{item[itemName]}</p>
                 <div className="flex-grow"></div>
-                <input
-                  type="button"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-2 rounded shadow cursor-pointer mr-1 w-20"
-                  value={this.ifLikedWorkout(item) ? "Unlike" : "Like"}
-                  onClick={async () => {
+                <button
+                  title={this.ifLikedWorkout(item) ? "Unlike" : "Like"}
+                  className="hover:bg-blue-200 font-semibold px-2 rounded shadow cursor-pointer mr-1"
+                  onClick={() => {
                     if (!this.ifLikedWorkout(item)) {
                       this.likeWorkout(item);
                     } else {
                       this.unikeWorkout(item);
                     }
                   }}
-                />
+                >
+                  {this.ifLikedWorkout(item) ? (
+                    <ThumbUpIconSolid className="h-5 w-5 text-blue-500" />
+                  ) : (
+                    <ThumbUpIcon className="h-5 w-5 text-blue-500" />
+                  )}
+                </button>
               </div>
             );
           })}
