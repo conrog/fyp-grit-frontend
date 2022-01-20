@@ -74,7 +74,9 @@ class App extends React.Component {
 
     return (
       <div className="mx-auto w-50">
-        <h1 className="text-center my-4">GRIT Workout Reccomender System:</h1>
+        <h1 className="text-center my-4" id="header">
+          GRIT Workout Reccomender System:
+        </h1>
         <h2 className="my-4">
           Current User: {this.state.currentUser.userName === "" ? "N/A" : this.state.currentUser.userName}
         </h2>
