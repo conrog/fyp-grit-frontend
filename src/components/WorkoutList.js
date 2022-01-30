@@ -37,7 +37,9 @@ class WorkoutList extends React.Component {
     const workoutId = workout.workout_id;
     const { currentUser } = this.props;
     await axios
-      .post(`http://localhost:3000/workouts/${workoutId}/like`, { userId: currentUser.userId })
+      .post(`http://localhost:3000/workouts/${workoutId}/like`, {
+        userId: currentUser.userId,
+      })
       .then((res) => {
         // console.log(res);
       })
@@ -51,7 +53,9 @@ class WorkoutList extends React.Component {
     const workoutId = workout.workout_id;
     const { currentUser } = this.props;
     await axios
-      .delete(`http://localhost:3000/workouts/${workoutId}/like`, { data: { userId: currentUser.userId } })
+      .delete(`http://localhost:3000/workouts/${workoutId}/like`, {
+        data: { userId: currentUser.userId },
+      })
       .then((res) => {
         console.log(res);
       })
@@ -68,7 +72,10 @@ class WorkoutList extends React.Component {
         <div className="grid grid-cols-1 pt-2">
           {this.state.items.map((workout) => {
             return (
-              <div className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex" key={workout.workout_id}>
+              <div
+                className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex"
+                key={workout.workout_id}
+              >
                 <p className="mb-2">{workout.workout_name}</p>
                 <div className="flex-grow"></div>
                 <button
