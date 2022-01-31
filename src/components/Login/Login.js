@@ -16,7 +16,6 @@ function Login({ setToken }) {
         username,
         password,
       });
-      console.log(data);
       setToken(data);
     } catch (e) {
       console.log(e.response.data);
