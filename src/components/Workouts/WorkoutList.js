@@ -16,15 +16,33 @@ class WorkoutList extends React.Component {
   }
 
   async getWorkouts() {
-    await axios.get("http://localhost:3000/workouts").then((res) => {
-      this.setState({ workouts: res.data });
-    });
+    try {
+      const { token } = JSON.parse(sessionStorage.getItem("token"));
+      console.log(token);
+      await axios
+        .get("http://localhost:3000/workouts", {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        })
+        .then((res) => {
+          this.setState({ workouts: res.data });
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getLikedWorkouts() {
+    const { token } = JSON.parse(sessionStorage.getItem("token"));
     await axios
       .get(
-        `http://localhost:3000/workouts/liked/${this.props.currentUser.userId}`
+        `http://localhost:3000/workouts/liked/${this.props.currentUser.userId}`,
+        {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        }
       )
       .then((res) => {
         this.setState({ likedWorkouts: res.data });

@@ -1,7 +1,16 @@
+// TODO:
+// Refactor axios API functions into API folder
+// .env file for API url etc...
+// Redirect to login on 401
+//  - If 401 recieved call clearState function that removes state and sessionStorage
+// Register page
+
 import React from "react";
-import axios from "axios";
+import jwtDecode from "jwt-decode";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard, Login, Workouts } from "./components";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -17,41 +26,39 @@ class App extends React.Component {
     };
 
     this.setToken = this.setToken.bind(this);
+    this.getToken = this.getToken.bind(this);
   }
 
-  setToken(data) {
+  getToken() {
+    //Add setState to decoded token
+    const tokenString = sessionStorage.getItem("token");
+    if (tokenString) {
+      let decoded = jwtDecode(tokenString);
+      this.setState({
+        currentUser: { userId: decoded.userId, userName: decoded.userName },
+        token: tokenString,
+      });
+    }
+  }
+
+  setToken(token) {
+    //Set State here
+    let decoded = jwtDecode(token.token);
+    sessionStorage.setItem("token", JSON.stringify(token));
     this.setState({
-      token: data.token,
-      currentUser: { userId: data.user_id, userName: data.user_name },
+      currentUser: { userId: decoded.userId, userName: decoded.userName },
+      token: token.token,
     });
   }
 
-  //For developement
-  // async devSetToken() {
-  //   this.setState({ loading: true });
-  //   const { data } = await axios.post("http://localhost:3000/login", {
-  //     username: "Conor",
-  //     password: "abc123",
-  //   });
-  //   this.setState({
-  //     token: data.token,
-  //     currentUser: { userId: data.user_id, userName: data.user_name },
-  //     loading: false,
-  //   });
-  // }
-  // componentDidMount() {
-  //   this.devSetToken();
-  // }
+  componentDidMount() {
+    this.getToken();
+  }
 
   render() {
     if (!this.state.token) {
       return <Login setToken={this.setToken} />;
     }
-
-    // For developement
-    // if (this.state.loading) {
-    //   return <h1>loading</h1>;
-    // }
 
     return (
       <div className="mx-auto max-w-4xl">
