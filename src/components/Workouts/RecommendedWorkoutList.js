@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "../../api/api";
 
 class RecommendedWorkoutList extends React.Component {
   constructor(props) {
@@ -10,17 +10,21 @@ class RecommendedWorkoutList extends React.Component {
   }
 
   async getRecommendations() {
-    await axios
-      .get(
-        `http://localhost:3000/reccomendations/${this.props.currentUser.userId}`
-      )
-      .then((res) => {
-        const { data } = res;
-        this.setState({ recommendedWorkouts: data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const { token } = JSON.parse(sessionStorage.getItem("token"));
+      let res = await api.get(
+        `/reccomendations/${this.props.currentUser.userId}`,
+        {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        }
+      );
+
+      this.setState({ recommendedWorkouts: res.data });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   componentDidMount() {
