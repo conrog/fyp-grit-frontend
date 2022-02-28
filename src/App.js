@@ -1,6 +1,4 @@
 // TODO:
-// Refactor axios API functions into API folder
-// .env file for API url etc...
 // Redirect to login on 401
 //  - If 401 recieved call clearState function that removes state and sessionStorage
 // Register page
@@ -10,7 +8,6 @@ import jwtDecode from "jwt-decode";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard, Login, Workouts } from "./components";
-
 
 class App extends React.Component {
   constructor(props) {

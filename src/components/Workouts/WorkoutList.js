@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { ThumbUpIcon } from "@heroicons/react/outline";
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 
@@ -18,70 +18,76 @@ class WorkoutList extends React.Component {
   async getWorkouts() {
     try {
       const { token } = JSON.parse(sessionStorage.getItem("token"));
-      console.log(token);
-      await axios
-        .get("http://localhost:3000/workouts", {
-          headers: {
-            Authorization: "Basic " + token,
-          },
-        })
-        .then((res) => {
-          this.setState({ workouts: res.data });
-        });
+      let res = await api.get("/workouts", {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      });
+
+      this.setState({ workouts: res.data });
     } catch (error) {
       console.log(error);
     }
   }
 
   async getLikedWorkouts() {
-    const { token } = JSON.parse(sessionStorage.getItem("token"));
-    await axios
-      .get(
-        `http://localhost:3000/workouts/liked/${this.props.currentUser.userId}`,
+    try {
+      const { token } = JSON.parse(sessionStorage.getItem("token"));
+      let res = await api.get(
+        `/workouts/liked/${this.props.currentUser.userId}`,
         {
           headers: {
             Authorization: "Basic " + token,
           },
         }
-      )
-      .then((res) => {
-        this.setState({ likedWorkouts: res.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      );
+
+      this.setState({ likedWorkouts: res.data });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async likeWorkout(workout) {
-    const workoutId = workout.workout_id;
-    const { currentUser } = this.props;
-    await axios
-      .post(`http://localhost:3000/workouts/${workoutId}/like`, {
-        userId: currentUser.userId,
-      })
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    await this.getLikedWorkouts();
+    try {
+      const { token } = await JSON.parse(sessionStorage.getItem("token"));
+      const workoutId = workout.workout_id;
+      const { currentUser } = this.props;
+
+      await api.post(
+        `/workouts/${workoutId}/like`,
+        {
+          userId: currentUser.userId,
+        },
+        {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        }
+      );
+      await this.getLikedWorkouts();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async unlikeWorkout(workout) {
-    const workoutId = workout.workout_id;
-    const { currentUser } = this.props;
-    await axios
-      .delete(`http://localhost:3000/workouts/${workoutId}/like`, {
+    try {
+      const { token } = await JSON.parse(sessionStorage.getItem("token"));
+      const workoutId = workout.workout_id;
+      const { currentUser } = this.props;
+
+      await api.delete(`/workouts/${workoutId}/like`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
         data: { userId: currentUser.userId },
-      })
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
       });
-    await this.getLikedWorkouts();
+
+      await this.getLikedWorkouts();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   ifLikedWorkout({ workout_id }) {

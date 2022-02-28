@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 
 function Login({ setToken }) {
   const [username, setUsername] = useState();
@@ -12,7 +12,7 @@ function Login({ setToken }) {
     setShowError(false);
     setErrorMessage("");
     try {
-      const { data } = await axios.post("http://localhost:3000/login", {
+      const { data } = await api.post("/login", {
         username,
         password,
       });
