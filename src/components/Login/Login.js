@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import api from "../../api/api";
 
-function Login({ setToken }) {
+const Login = ({ setToken }) => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [showError, setShowError] = useState(false);
@@ -51,9 +51,7 @@ function Login({ setToken }) {
           </label>
           {showError ? (
             <p className="text-center text-red-600">{errorMessage}</p>
-          ) : (
-            ""
-          )}
+          ) : null}
           <div>
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer mb-4 mt-2"
@@ -66,6 +64,6 @@ function Login({ setToken }) {
       </div>
     </div>
   );
-}
+};
 
 export default Login;
