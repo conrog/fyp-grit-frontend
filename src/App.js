@@ -1,13 +1,12 @@
 // TODO:
 // Redirect to login on 401
 //  - If 401 recieved call clearState function that removes state and sessionStorage
-// Register page
 
 import React from "react";
 import jwtDecode from "jwt-decode";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Login, Workouts } from "./components";
+import { Dashboard, Login, Workouts, Register } from "./components";
 
 class App extends React.Component {
   constructor(props) {
@@ -54,7 +53,17 @@ class App extends React.Component {
 
   render() {
     if (!this.state.token) {
-      return <Login setToken={this.setToken} />;
+      return (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/*" element={<Login setToken={this.setToken} />} />
+            <Route
+              path="/register"
+              element={<Register setToken={this.setToken} />}
+            />
+          </Routes>
+        </BrowserRouter>
+      );
     }
 
     return (
