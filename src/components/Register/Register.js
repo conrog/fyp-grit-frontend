@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import api from "../../api/api";
 
@@ -133,6 +134,12 @@ const Register = ({ setToken }) => {
               >
                 Create Account
               </button>
+              <p className="text-center mt-2 ">
+                Already have an account?{" "}
+                <Link to="/login" className="text-blue-500">
+                  Log in
+                </Link>
+              </p>
             </Form>
           )}
         </Formik>

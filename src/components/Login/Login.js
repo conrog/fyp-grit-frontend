@@ -46,7 +46,7 @@ const Login = ({ setToken }) => {
         >
           {({ isSubmitting, errors, touched }) => (
             <Form className="m-2 p-4 border-2 rounded bg-white flex flex-col">
-              <p className="pb-2 border-b-2 font-semibold">Login</p>
+              <p className="pb-2 border-b-2 font-semibold">Log In</p>
               <label htmlFor="username">Username:</label>
               <Field
                 className={
@@ -87,7 +87,7 @@ const Login = ({ setToken }) => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                Login
+                Log In
               </button>
               <p className="text-center mt-2 ">
                 Need an account?{" "}
