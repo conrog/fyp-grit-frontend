@@ -14,19 +14,15 @@ class App extends React.Component {
 
     this.state = {
       currentUser: { userId: -1, userName: "" },
-      users: [],
-      likedItems: [],
-      reccomendedWorkouts: [],
       token: "",
-      loading: false,
     };
 
     this.setToken = this.setToken.bind(this);
     this.getToken = this.getToken.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   getToken() {
-    //Add setState to decoded token
     const tokenString = sessionStorage.getItem("token");
     if (tokenString) {
       let decoded = jwtDecode(tokenString);
@@ -38,12 +34,19 @@ class App extends React.Component {
   }
 
   setToken(token) {
-    //Set State here
     let decoded = jwtDecode(token.token);
     sessionStorage.setItem("token", JSON.stringify(token));
     this.setState({
       currentUser: { userId: decoded.userId, userName: decoded.userName },
       token: token.token,
+    });
+  }
+
+  logout() {
+    sessionStorage.removeItem("token");
+    this.setState({
+      currentUser: { userId: -1, userName: "" },
+      token: "",
     });
   }
 
@@ -70,12 +73,25 @@ class App extends React.Component {
       <div className="mx-auto max-w-4xl">
         <div className="m-2">
           <h1 className="text-center my-4">GRIT Workout Reccomender System</h1>
-          <h2 className="my-2">
-            Current User:{" "}
-            {this.state.currentUser.userName === ""
-              ? "N/A"
-              : this.state.currentUser.userName}
-          </h2>
+          <div className="grid grid-cols-2 content-between">
+            <div>
+              <h2 className="my-2">
+                Current User:{" "}
+                {this.state.currentUser.userName === ""
+                  ? "N/A"
+                  : this.state.currentUser.userName}
+              </h2>
+            </div>
+            <div className="justify-self-end self-center">
+              <button
+                onClick={() => this.logout()}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+
           <BrowserRouter>
             <Routes>
               <Route
