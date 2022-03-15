@@ -14,3 +14,13 @@
     @apply bg-gray-100;
   }
 }
+
+@layer components {
+  .btn {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer;
+  }
+
+  .card {
+    @apply bg-white shadow-md rounded;
+  }
+}
