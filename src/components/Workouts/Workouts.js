@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import WorkoutList from "./WorkoutList";
 import RecommendedWorkoutList from "./RecommendedWorkoutList";
 
@@ -27,6 +28,11 @@ class Workouts extends React.Component {
               <option value="recommendations">Recommended Workouts</option>
             </select>
           </div>
+        </div>
+        <div>
+          <Link to="/workouts/new" className="btn">
+            Create Workout
+          </Link>
         </div>
         {this.state.selectValue === "workouts" ? (
           <WorkoutList currentUser={this.props.currentUser} />

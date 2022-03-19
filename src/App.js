@@ -5,8 +5,14 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard, Login, Workouts, Register } from "./components";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import {
+  Dashboard,
+  Login,
+  Workouts,
+  CreateWorkout,
+  Register,
+} from "./components";
 
 class App extends React.Component {
   constructor(props) {
@@ -72,7 +78,7 @@ class App extends React.Component {
     return (
       <div className="mx-auto max-w-4xl">
         <div className="m-2">
-          <h1 className="text-center my-4">GRIT Workout Reccomender System</h1>
+          <h1 className="text-center my-4">GRIT Workout Recommender System</h1>
           <div className="grid grid-cols-2 content-between">
             <div>
               <h2 className="my-2">
@@ -98,10 +104,12 @@ class App extends React.Component {
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
               />
+              <Route path="/workouts/new" element={<CreateWorkout />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
           </BrowserRouter>
+          <Outlet />
         </div>
       </div>
     );
