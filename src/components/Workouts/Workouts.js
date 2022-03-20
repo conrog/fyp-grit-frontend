@@ -23,8 +23,11 @@ class Workouts extends React.Component {
           <div className="grow"></div>
           <div>
             <span className="p-1">Current Selection: </span>
-            <select className="rounded border-2" onChange={this.handleChange}>
-              <option value="workouts">Workouts</option>
+            <select
+              className="rounded border-2 py-0 px-1"
+              onChange={this.handleChange}
+            >
+              <option value="workouts">Your Workouts</option>
               <option value="recommendations">Recommended Workouts</option>
             </select>
           </div>
