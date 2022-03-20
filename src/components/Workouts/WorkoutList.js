@@ -1,7 +1,12 @@
 import React from "react";
 import api from "../../api/api";
-import { ThumbUpIcon } from "@heroicons/react/outline";
+import {
+  ThumbUpIcon,
+  PencilAltIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 
 class WorkoutList extends React.Component {
   constructor(props) {
@@ -109,32 +114,53 @@ class WorkoutList extends React.Component {
 
   render() {
     return (
-      <div className="grid grid-cols-1 pt-2 ">
-        {this.state.workouts.map((workout) => {
+      <div className="pt-2 ">
+        {this.state.workouts.map((workout, index) => {
+          let startTime = workout.start_time;
           return (
             <div
-              className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex"
+              className="rounded shadow-md p-3 mb-2 bg-white flex flex-col "
               key={workout.workout_id}
             >
-              <p className="mb-2">{workout.workout_name}</p>
-              <div className="flex-grow"></div>
-              <button
-                title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
-                className="hover:bg-blue-200 font-semibold px-2 rounded shadow cursor-pointer mr-1"
-                onClick={() => {
-                  if (!this.ifLikedWorkout(workout)) {
-                    this.likeWorkout(workout);
-                  } else {
-                    this.unlikeWorkout(workout);
-                  }
-                }}
-              >
-                {this.ifLikedWorkout(workout) ? (
-                  <ThumbUpIconSolid className="h-5 w-5 text-blue-500" />
-                ) : (
-                  <ThumbUpIcon className="h-5 w-5 text-blue-500" />
-                )}
-              </button>
+              <div className="flex gap-2">
+                <Link
+                  className="font-semibold text-xl flex-auto hover:text-blue-600 cursor-pointer"
+                  to={`/workouts/${workout.workout_id}`}
+                  state={{ workout }}
+                >
+                  {workout.workout_name}
+                </Link>
+                <button className="w-6 h-6 hover:text-blue-600">
+                  <PencilAltIcon />
+                </button>
+                <button className="w-6 h-6 hover:text-blue-600">
+                  <TrashIcon />
+                </button>
+              </div>
+              <div className="flex font-light">
+                <p className="flex-auto">{workout.user_name}</p>
+                <p>{startTime === null ? "" : startTime.split(" ")[0]}</p>
+              </div>
+              <div className="font-light">{workout.description}</div>
+              <div className="self-end">
+                <button
+                  title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
+                  className="hover:text-blue-600 font-semibold p-1 cursor-pointer rounded"
+                  onClick={() => {
+                    if (!this.ifLikedWorkout(workout)) {
+                      this.likeWorkout(workout);
+                    } else {
+                      this.unlikeWorkout(workout);
+                    }
+                  }}
+                >
+                  {this.ifLikedWorkout(workout) ? (
+                    <ThumbUpIconSolid className="h-6 w-6 text-blue-500 hover:text-blue-600" />
+                  ) : (
+                    <ThumbUpIcon className="h-6 w-6" />
+                  )}
+                </button>
+              </div>
             </div>
           );
         })}

@@ -13,6 +13,7 @@ import {
   CreateWorkout,
   Register,
 } from "./components";
+import ViewWorkout from "./components/Workouts/ViewWorkout";
 
 class App extends React.Component {
   constructor(props) {
@@ -104,6 +105,7 @@ class App extends React.Component {
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
               />
+              <Route path="/workouts/:id" element={<ViewWorkout />} />
               <Route path="/workouts/new" element={<CreateWorkout />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />

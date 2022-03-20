@@ -5,6 +5,7 @@ import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { arrayAfterSplice, findIndexOfObjectInarray } from "../../utils";
 import { PlusIcon, TrashIcon } from "@heroicons/react/outline";
+import dayjs from "dayjs";
 
 const modalStyle = {
   overlay: {
@@ -42,11 +43,17 @@ function CreateWorkout() {
   const [exercises, setExercises] = useState([]);
   const [workoutExercises, setWorkoutExercises] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [startTime] = useState(dayjs().format("YYYY-MM-DD HH:mm:ss"));
   let navigate = useNavigate();
 
   useEffect(() => {
+    const { token } = JSON.parse(sessionStorage.getItem("token"));
     api
-      .get("/exercises")
+      .get("/exercises", {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      })
       .then((res) => {
         setExercises([...res.data]);
       })
@@ -127,7 +134,6 @@ function CreateWorkout() {
             type="text"
             placeholder="New Workout"
             onChange={(event) => {
-              console.log(event.target.value);
               setWorkoutName(event.target.value);
             }}
           />
@@ -136,9 +142,8 @@ function CreateWorkout() {
           <p>Description:</p>
           <textarea
             placeholder="Workout Description/Notes..."
-            className="mt-2 border"
+            className="mt-2 p-1  border"
             onChange={(event) => {
-              console.log(event.target.value);
               setWorkoutDescription(event.target.value);
             }}
           />
@@ -150,16 +155,16 @@ function CreateWorkout() {
               name: workoutName,
               description: workoutDescription,
               exercises: workoutExercises,
+              startTime: startTime,
             };
 
             try {
               const { token } = JSON.parse(sessionStorage.getItem("token"));
-              let res = await api.post("/workouts/new", body, {
+              await api.post("/workouts/new", body, {
                 headers: {
                   Authorization: "Basic " + token,
                 },
               });
-              console.log(res);
               navigate("/workouts");
             } catch (error) {
               console.log(error);
