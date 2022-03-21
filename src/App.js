@@ -5,7 +5,7 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
 
-import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   Dashboard,
   Login,
@@ -14,6 +14,7 @@ import {
   Register,
 } from "./components";
 import ViewWorkout from "./components/Workouts/ViewWorkout";
+import EditWorkout from "./components/Workouts/EditWorkout";
 
 class App extends React.Component {
   constructor(props) {
@@ -105,13 +106,13 @@ class App extends React.Component {
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
               />
-              <Route path="/workouts/:id" element={<ViewWorkout />} />
               <Route path="/workouts/new" element={<CreateWorkout />} />
+              <Route path="/workouts/:id" element={<ViewWorkout />} />
+              <Route path="/workouts/:id/edit" element={<EditWorkout />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
           </BrowserRouter>
-          <Outlet />
         </div>
       </div>
     );

@@ -171,9 +171,13 @@ class WorkoutList extends React.Component {
                   >
                     {workout.workout_name}
                   </Link>
-                  <button className="w-6 h-6 hover:text-blue-600">
+                  <Link
+                    className="w-6 h-6 hover:text-blue-600"
+                    to={`/workouts/${workout.workout_id}/edit`}
+                    state={{ workout }}
+                  >
                     <PencilAltIcon />
-                  </button>
+                  </Link>
                   <button
                     className="w-6 h-6 hover:text-blue-600"
                     title={`Detele ${workout.workout_name}`}
@@ -259,7 +263,6 @@ class WorkoutList extends React.Component {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          toastStyle={{ backgroundColor: "#228B22", color: "white" }}
         />
       </div>
     );
