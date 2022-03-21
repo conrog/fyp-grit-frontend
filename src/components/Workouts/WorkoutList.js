@@ -7,17 +7,27 @@ import {
 } from "@heroicons/react/outline";
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
+import DeleteModal from "../Modals/DeleteModals";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class WorkoutList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { workouts: [], likedWorkouts: [] };
+    this.state = {
+      workouts: [],
+      likedWorkouts: [],
+      showModal: false,
+      workoutId: "",
+      workoutName: "",
+    };
 
     this.getWorkouts = this.getWorkouts.bind(this);
     this.getLikedWorkouts = this.getLikedWorkouts.bind(this);
     this.likeWorkout = this.likeWorkout.bind(this);
     this.unlikeWorkout = this.unlikeWorkout.bind(this);
+    this.deleteWorkout = this.deleteWorkout.bind(this);
   }
 
   async getWorkouts() {
@@ -95,6 +105,31 @@ class WorkoutList extends React.Component {
     }
   }
 
+  async deleteWorkout(workoutId) {
+    try {
+      const { token } = await JSON.parse(sessionStorage.getItem("token"));
+
+      let result = await api.delete(`/workouts/${workoutId}`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      });
+
+      await this.getWorkouts();
+      toast.success(`${this.state.workoutName} has been deleted.`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      this.setState({ showModal: false });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   ifLikedWorkout({ workout_id }) {
     const { likedWorkouts } = this.state;
     let found = false;
@@ -115,7 +150,7 @@ class WorkoutList extends React.Component {
   render() {
     return (
       <div className="pt-2 ">
-        {this.state.workouts.map((workout, index) => {
+        {this.state.workouts.map((workout) => {
           let startTime = workout.start_time;
           return (
             <div
@@ -133,7 +168,17 @@ class WorkoutList extends React.Component {
                 <button className="w-6 h-6 hover:text-blue-600">
                   <PencilAltIcon />
                 </button>
-                <button className="w-6 h-6 hover:text-blue-600">
+                <button
+                  className="w-6 h-6 hover:text-blue-600"
+                  title={`Detele ${workout.workout_name}`}
+                  onClick={() => {
+                    this.setState({
+                      showModal: true,
+                      workoutId: workout.workout_id,
+                      workoutName: workout.workout_name,
+                    });
+                  }}
+                >
                   <TrashIcon />
                 </button>
               </div>
@@ -142,7 +187,28 @@ class WorkoutList extends React.Component {
                 <p>{startTime === null ? "" : startTime.split(" ")[0]}</p>
               </div>
               <div className="font-light">{workout.description}</div>
-              <div className="self-end">
+              <div className="flex">
+                <p className="flex-auto align-text-bottom font-light">
+                  Total Volume:{" "}
+                  {workout.exercises.length > 0
+                    ? workout.exercises.reduce(
+                        (totalWorkoutVolume, currentExercise) => {
+                          let currentExerciseVolume =
+                            currentExercise.sets.reduce(
+                              (totalExerciseVolume, currentSet) => {
+                                return (totalExerciseVolume +=
+                                  currentSet.weight * currentSet.reps);
+                              },
+                              0
+                            );
+
+                          return (totalWorkoutVolume += currentExerciseVolume);
+                        },
+                        0
+                      )
+                    : "0"}{" "}
+                  KG
+                </p>
                 <button
                   title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
                   className="hover:text-blue-600 font-semibold p-1 cursor-pointer rounded"
@@ -164,6 +230,28 @@ class WorkoutList extends React.Component {
             </div>
           );
         })}
+        <DeleteModal
+          title="Delete Workout"
+          className="mx-2"
+          showModal={this.state.showModal}
+          itemName={this.state.workoutName}
+          itemId={this.state.workoutId}
+          deleteHandler={this.deleteWorkout}
+          cancelHandler={() => {
+            this.setState({ showModal: false });
+          }}
+        />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          toastStyle={{ backgroundColor: "#228B22", color: "white" }}
+        />
       </div>
     );
   }
