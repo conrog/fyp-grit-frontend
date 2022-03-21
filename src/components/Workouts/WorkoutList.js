@@ -109,7 +109,7 @@ class WorkoutList extends React.Component {
     try {
       const { token } = await JSON.parse(sessionStorage.getItem("token"));
 
-      let result = await api.delete(`/workouts/${workoutId}`, {
+      await api.delete(`/workouts/${workoutId}`, {
         headers: {
           Authorization: "Basic " + token,
         },
@@ -150,86 +150,95 @@ class WorkoutList extends React.Component {
   render() {
     return (
       <div className="pt-2 ">
-        {this.state.workouts.map((workout) => {
-          let startTime = workout.start_time;
-          return (
-            <div
-              className="rounded shadow-md p-3 mb-2 bg-white flex flex-col "
-              key={workout.workout_id}
-            >
-              <div className="flex gap-2">
-                <Link
-                  className="font-semibold text-xl flex-auto hover:text-blue-600 cursor-pointer"
-                  to={`/workouts/${workout.workout_id}`}
-                  state={{ workout }}
-                >
-                  {workout.workout_name}
-                </Link>
-                <button className="w-6 h-6 hover:text-blue-600">
-                  <PencilAltIcon />
-                </button>
-                <button
-                  className="w-6 h-6 hover:text-blue-600"
-                  title={`Detele ${workout.workout_name}`}
-                  onClick={() => {
-                    this.setState({
-                      showModal: true,
-                      workoutId: workout.workout_id,
-                      workoutName: workout.workout_name,
-                    });
-                  }}
-                >
-                  <TrashIcon />
-                </button>
-              </div>
-              <div className="flex font-light">
-                <p className="flex-auto">{workout.user_name}</p>
-                <p>{startTime === null ? "" : startTime.split(" ")[0]}</p>
-              </div>
-              <div className="font-light">{workout.description}</div>
-              <div className="flex">
-                <p className="flex-auto align-text-bottom font-light">
-                  Total Volume:{" "}
-                  {workout.exercises.length > 0
-                    ? workout.exercises.reduce(
-                        (totalWorkoutVolume, currentExercise) => {
-                          let currentExerciseVolume =
-                            currentExercise.sets.reduce(
-                              (totalExerciseVolume, currentSet) => {
-                                return (totalExerciseVolume +=
-                                  currentSet.weight * currentSet.reps);
-                              },
-                              0
-                            );
+        {this.state.workouts
+          .filter((workout) =>
+            workout.workout_name
+              .toLowerCase()
+              .includes(this.props.searchValue.toLowerCase())
+          )
+          .map((workout) => {
+            let startTime = workout.start_time;
+            return (
+              <div
+                className="rounded shadow-md p-3 mb-2 bg-white flex flex-col "
+                key={workout.workout_id}
+              >
+                <div className="flex gap-2">
+                  <Link
+                    className="font-semibold text-xl flex-auto hover:text-blue-600 cursor-pointer"
+                    to={`/workouts/${workout.workout_id}`}
+                    state={{ workout }}
+                  >
+                    {workout.workout_name}
+                  </Link>
+                  <button className="w-6 h-6 hover:text-blue-600">
+                    <PencilAltIcon />
+                  </button>
+                  <button
+                    className="w-6 h-6 hover:text-blue-600"
+                    title={`Detele ${workout.workout_name}`}
+                    onClick={() => {
+                      this.setState({
+                        showModal: true,
+                        workoutId: workout.workout_id,
+                        workoutName: workout.workout_name,
+                      });
+                    }}
+                  >
+                    <TrashIcon />
+                  </button>
+                </div>
+                <div className="flex font-light">
+                  <p className="flex-auto">{workout.user_name}</p>
+                  <p>{startTime === null ? "" : startTime.split(" ")[0]}</p>
+                </div>
+                <div className="font-light">
+                  {workout.description.substr(0, 30) + " ..."}
+                </div>
+                <div className="flex">
+                  <p className="flex-auto align-text-bottom font-light">
+                    Total Volume:{" "}
+                    {workout.exercises.length > 0
+                      ? workout.exercises.reduce(
+                          (totalWorkoutVolume, currentExercise) => {
+                            let currentExerciseVolume =
+                              currentExercise.sets.reduce(
+                                (totalExerciseVolume, currentSet) => {
+                                  return (totalExerciseVolume +=
+                                    currentSet.weight * currentSet.reps);
+                                },
+                                0
+                              );
 
-                          return (totalWorkoutVolume += currentExerciseVolume);
-                        },
-                        0
-                      )
-                    : "0"}{" "}
-                  KG
-                </p>
-                <button
-                  title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
-                  className="hover:text-blue-600 font-semibold p-1 cursor-pointer rounded"
-                  onClick={() => {
-                    if (!this.ifLikedWorkout(workout)) {
-                      this.likeWorkout(workout);
-                    } else {
-                      this.unlikeWorkout(workout);
-                    }
-                  }}
-                >
-                  {this.ifLikedWorkout(workout) ? (
-                    <ThumbUpIconSolid className="h-6 w-6 text-blue-500 hover:text-blue-600" />
-                  ) : (
-                    <ThumbUpIcon className="h-6 w-6" />
-                  )}
-                </button>
+                            return (totalWorkoutVolume +=
+                              currentExerciseVolume);
+                          },
+                          0
+                        )
+                      : "0"}{" "}
+                    KG
+                  </p>
+                  <button
+                    title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
+                    className="hover:text-blue-600 font-semibold p-1 cursor-pointer rounded"
+                    onClick={() => {
+                      if (!this.ifLikedWorkout(workout)) {
+                        this.likeWorkout(workout);
+                      } else {
+                        this.unlikeWorkout(workout);
+                      }
+                    }}
+                  >
+                    {this.ifLikedWorkout(workout) ? (
+                      <ThumbUpIconSolid className="h-6 w-6 text-blue-500 hover:text-blue-600" />
+                    ) : (
+                      <ThumbUpIcon className="h-6 w-6" />
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         <DeleteModal
           title="Delete Workout"
           className="mx-2"
