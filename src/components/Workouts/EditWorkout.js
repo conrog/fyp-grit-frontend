@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/api";
+import { useLocation } from "react-router-dom";
 import AddExercise from "./AddExercise";
 import ReactModal from "react-modal";
-import { useNavigate } from "react-router-dom";
 import { arrayAfterSplice, findIndexOfObjectInarray } from "../../utils";
 import { PlusIcon, TrashIcon } from "@heroicons/react/outline";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import dayjs from "dayjs";
 
 const modalStyle = {
   overlay: {
@@ -38,14 +38,17 @@ const modalStyle = {
   },
 };
 
-function CreateWorkout() {
-  const [workoutName, setWorkoutName] = useState("");
-  const [workoutDescription, setWorkoutDescription] = useState("");
+function EditWorkout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { workout } = location.state;
   const [exercises, setExercises] = useState([]);
-  const [workoutExercises, setWorkoutExercises] = useState([]);
+  const [workoutName, setWorkoutName] = useState(workout.workout_name);
+  const [workoutDescription, setWorkoutDescription] = useState(
+    workout.description
+  );
+  const [workoutExercises, setWorkoutExercises] = useState(workout.exercises);
   const [showModal, setShowModal] = useState(false);
-  const [startTime] = useState(dayjs().format("YYYY-MM-DD HH:mm:ss"));
-  let navigate = useNavigate();
 
   useEffect(() => {
     const { token } = JSON.parse(sessionStorage.getItem("token"));
@@ -134,16 +137,18 @@ function CreateWorkout() {
             className="flex-auto border ml-2 p-1"
             type="text"
             placeholder="New Workout"
+            value={workoutName}
             onChange={(event) => {
               setWorkoutName(event.target.value);
             }}
           />
         </label>
         <label className="flex flex-col mt-2">
-          <p>Description:</p>
+          <p className="">Description:</p>
           <textarea
             placeholder="Workout Description/Notes..."
             className="mt-2 p-1  border"
+            value={workoutDescription}
             onChange={(event) => {
               setWorkoutDescription(event.target.value);
             }}
@@ -156,17 +161,16 @@ function CreateWorkout() {
               name: workoutName,
               description: workoutDescription,
               exercises: workoutExercises,
-              startTime: startTime,
             };
 
             try {
               const { token } = JSON.parse(sessionStorage.getItem("token"));
-              await api.post("/workouts/new", body, {
+              await api.put(`/workouts/${workout.workout_id}/edit`, body, {
                 headers: {
                   Authorization: "Basic " + token,
                 },
               });
-              toast.success(`${workoutName} has been created.`, {
+              toast.success(`${workoutName} has been updated.`, {
                 position: "bottom-right",
                 autoClose: 5000,
                 closeOnClick: true,
@@ -180,10 +184,9 @@ function CreateWorkout() {
             }
           }}
         >
-          Save
+          Update
         </button>
       </div>
-
       <div className="mt-2 p-2 card rounded-b-none">
         <div className="flex">
           <p className=" flex-auto text-xl">Exercises</p>
@@ -239,8 +242,9 @@ function CreateWorkout() {
                         className="w-full border px-1"
                         type="number"
                         min="1"
-                        placeholder={set.number}
+                        defaultValue={set.number}
                         onBlur={(event) => {
+                          console.log(event.target.value);
                           updateSetField(
                             workoutExercises,
                             exercise.name,
@@ -254,7 +258,7 @@ function CreateWorkout() {
                     <div className="flex-1">
                       <input
                         className="w-full border px-1"
-                        placeholder={set.weight}
+                        defaultValue={set.weight}
                         onBlur={(event) => {
                           updateSetField(
                             workoutExercises,
@@ -271,7 +275,7 @@ function CreateWorkout() {
                         className="w-full border px-1"
                         type="number"
                         min="0"
-                        placeholder={set.reps}
+                        defaultValue={set.reps}
                         onBlur={(event) => {
                           updateSetField(
                             workoutExercises,
@@ -313,4 +317,4 @@ function CreateWorkout() {
   );
 }
 
-export default CreateWorkout;
+export default EditWorkout;
