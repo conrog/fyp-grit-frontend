@@ -33,17 +33,23 @@ class RecommendedWorkoutList extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.recommendedWorkouts.map((workout) => {
-          return (
-            <div
-              key={workout.workout_id}
-              className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex"
-            >
-              <p>{workout.workout_name}</p>
-            </div>
-          );
-        })}
+      <div className="pt-2">
+        {this.state.recommendedWorkouts
+          .filter((workout) =>
+            workout.workout_name
+              .toLowerCase()
+              .includes(this.props.searchValue.toLowerCase())
+          )
+          .map((workout) => {
+            return (
+              <div
+                key={workout.workout_id}
+                className="rounded overflow-hidden shadow-md p-4 mb-2 bg-white flex"
+              >
+                <p>{workout.workout_name}</p>
+              </div>
+            );
+          })}
       </div>
     );
   }
