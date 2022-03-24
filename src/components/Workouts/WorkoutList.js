@@ -8,7 +8,7 @@ import {
 import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import DeleteModal from "../Modals/DeleteModals";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class WorkoutList extends React.Component {
@@ -48,14 +48,11 @@ class WorkoutList extends React.Component {
   async getLikedWorkouts() {
     try {
       const { token } = JSON.parse(sessionStorage.getItem("token"));
-      let res = await api.get(
-        `/workouts/liked/${this.props.currentUser.userId}`,
-        {
-          headers: {
-            Authorization: "Basic " + token,
-          },
-        }
-      );
+      let res = await api.get(`/workouts/liked`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      });
 
       this.setState({ likedWorkouts: res.data });
     } catch (error) {
@@ -67,13 +64,10 @@ class WorkoutList extends React.Component {
     try {
       const { token } = await JSON.parse(sessionStorage.getItem("token"));
       const workoutId = workout.workout_id;
-      const { currentUser } = this.props;
 
       await api.post(
         `/workouts/${workoutId}/like`,
-        {
-          userId: currentUser.userId,
-        },
+        {},
         {
           headers: {
             Authorization: "Basic " + token,
@@ -90,13 +84,11 @@ class WorkoutList extends React.Component {
     try {
       const { token } = await JSON.parse(sessionStorage.getItem("token"));
       const workoutId = workout.workout_id;
-      const { currentUser } = this.props;
 
       await api.delete(`/workouts/${workoutId}/like`, {
         headers: {
           Authorization: "Basic " + token,
         },
-        data: { userId: currentUser.userId },
       });
 
       await this.getLikedWorkouts();
@@ -154,7 +146,11 @@ class WorkoutList extends React.Component {
           .filter((workout) =>
             workout.workout_name
               .toLowerCase()
-              .includes(this.props.searchValue.toLowerCase())
+              .includes(
+                this.props.searchValue
+                  ? this.props.searchValue.toLowerCase()
+                  : ""
+              )
           )
           .map((workout) => {
             let startTime = workout.start_time;
@@ -253,16 +249,6 @@ class WorkoutList extends React.Component {
           cancelHandler={() => {
             this.setState({ showModal: false });
           }}
-        />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
         />
       </div>
     );
