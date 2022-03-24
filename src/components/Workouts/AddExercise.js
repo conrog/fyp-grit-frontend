@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import {
-  capitalize,
-  arrayAfterPush,
-  arrayAfterPop,
-} from "../../utils";
-import {
-  XIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/outline";
+import { capitalize, arrayAfterPush, arrayAfterPop } from "../../utils";
+import { XIcon, QuestionMarkCircleIcon } from "@heroicons/react/outline";
 
 const gifModalStyle = {
   overlay: {
@@ -111,7 +104,7 @@ function AddExercise({
     <div>
       <div className="sticky top-0 bg-white p-4 pb-0">
         <div className="flex">
-          <h3 className="text-xl font-bold  flex-auto">Add Exercise</h3>
+          <h3 className="text-xl font-semibold  flex-auto">Add Exercise</h3>
 
           <div className="flex-none">
             <button
@@ -125,7 +118,7 @@ function AddExercise({
         </div>
         <div className="flex flex-wrap mt-2">
           <input
-            className="border flex-auto"
+            className="light-border flex-auto"
             type="text"
             placeholder="Exercise Name..."
             onChange={(event) => {
@@ -135,7 +128,7 @@ function AddExercise({
         </div>
         <div className="flex flex-wrap mt-2">
           <select
-            className="border flex-auto sm:mr-1 mr-0 "
+            className="light-border flex-auto sm:mr-1 mr-0 "
             onChange={(event) => {
               setEquipmentValue(event.target.value);
             }}
@@ -154,7 +147,7 @@ function AddExercise({
             })}
           </select>
           <select
-            className="border flex-auto sm:ml-1 ml-0 sm:mt-0 mt-2"
+            className="light-border flex-auto sm:ml-1 ml-0 sm:mt-0 mt-2"
             onChange={(event) => {
               setTargetMuscleValue(event.target.value);
             }}
@@ -170,7 +163,7 @@ function AddExercise({
           </select>
         </div>
         <div className="flex mt-2">
-          <h3 className="flex-auto text-xl font-bold">List of Exercises</h3>
+          <h3 className="flex-auto text-xl font-semibold">List of Exercises</h3>
           <button
             className="btn"
             onClick={() => {
@@ -221,7 +214,9 @@ function AddExercise({
             return (
               <div key={exercise.id} className="flex border mb-1 p-1">
                 <div className="flex-auto">
-                  <div className="capitalize font-bold">{exercise.name}</div>
+                  <div className="capitalize font-semibold">
+                    {exercise.name}
+                  </div>
                   <div className="capitalize">{exercise.target}</div>
                   <div className="capitalize">{exercise.equipment}</div>
                 </div>

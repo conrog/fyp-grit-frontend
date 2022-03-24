@@ -11,6 +11,7 @@ import {
 } from "./components";
 import ViewWorkout from "./components/Workouts/ViewWorkout";
 import EditWorkout from "./components/Workouts/EditWorkout";
+import NavBar from "./components/NavBar";
 
 class App extends React.Component {
   constructor(props) {
@@ -74,29 +75,13 @@ class App extends React.Component {
     }
 
     return (
-      <div className="mx-auto max-w-4xl">
-        <div className="m-2">
-          <h1 className="text-center my-4">GRIT Workout Recommender System</h1>
-          <div className="grid grid-cols-2 content-between">
-            <div>
-              <h2 className="my-2">
-                Current User:{" "}
-                {this.state.currentUser.userName === ""
-                  ? "N/A"
-                  : this.state.currentUser.userName}
-              </h2>
-            </div>
-            <div className="justify-self-end self-center">
-              <button
-                onClick={() => this.logout()}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer"
-              >
-                Log Out
-              </button>
-            </div>
-          </div>
-
-          <BrowserRouter>
+      <div>
+        <BrowserRouter>
+          <NavBar
+            currentUser={this.state.currentUser.userName}
+            logout={this.logout}
+          />
+          <div className="mx-auto px-1 max-w-4xl min-h-screen mt-2">
             <Routes>
               <Route
                 path="/workouts"
@@ -108,8 +93,8 @@ class App extends React.Component {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
-          </BrowserRouter>
-        </div>
+          </div>
+        </BrowserRouter>
         <ToastContainer
           position="bottom-right"
           autoClose={5000}

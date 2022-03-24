@@ -131,7 +131,7 @@ function CreateWorkout() {
         <label className="flex-auto flex">
           <p className="py-1">Name: </p>
           <input
-            className="flex-auto border ml-2 p-1"
+            className="flex-auto light-border ml-2 p-1"
             type="text"
             placeholder="New Workout"
             onChange={(event) => {
@@ -143,7 +143,7 @@ function CreateWorkout() {
           <p>Description:</p>
           <textarea
             placeholder="Workout Description/Notes..."
-            className="mt-2 p-1  border"
+            className="mt-2 p-1 light-border"
             onChange={(event) => {
               setWorkoutDescription(event.target.value);
             }}
@@ -236,7 +236,7 @@ function CreateWorkout() {
                   <div className="flex gap-1 mb-1" key={index}>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
                         type="number"
                         min="1"
                         placeholder={set.number}
@@ -253,7 +253,8 @@ function CreateWorkout() {
                     </div>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
+                        type="number"
                         placeholder={set.weight}
                         onBlur={(event) => {
                           updateSetField(
@@ -268,7 +269,7 @@ function CreateWorkout() {
                     </div>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
                         type="number"
                         min="0"
                         placeholder={set.reps}

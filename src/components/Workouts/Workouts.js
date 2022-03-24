@@ -24,13 +24,16 @@ class Workouts extends React.Component {
             <input
               type="text"
               placeholder="Search..."
-              className="p-1 h-full card w-full  md:w-6/12"
+              className="p-1 h-full card w-full  md:w-6/12 light-border"
               onChange={(event) => {
                 this.setState({ searchValue: event.target.value });
               }}
             />
           </div>
-          <select className="rounded p-1 card" onChange={this.handleChange}>
+          <select
+            className="rounded light-border p-1 card"
+            onChange={this.handleChange}
+          >
             <option value="workouts">Your Workouts</option>
             <option value="recommendations">Recommended Workouts</option>
           </select>
