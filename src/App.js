@@ -1,10 +1,6 @@
-// TODO:
-// Redirect to login on 401
-//  - If 401 recieved call clearState function that removes state and sessionStorage
-
 import React from "react";
 import jwtDecode from "jwt-decode";
-
+import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   Dashboard,
@@ -114,6 +110,16 @@ class App extends React.Component {
             </Routes>
           </BrowserRouter>
         </div>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }
