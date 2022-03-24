@@ -134,7 +134,7 @@ function EditWorkout() {
         <label className="flex-auto flex">
           <p className="py-1">Name: </p>
           <input
-            className="flex-auto border ml-2 p-1"
+            className="flex-auto light-border ml-2 p-1"
             type="text"
             placeholder="New Workout"
             value={workoutName}
@@ -147,7 +147,7 @@ function EditWorkout() {
           <p className="">Description:</p>
           <textarea
             placeholder="Workout Description/Notes..."
-            className="mt-2 p-1  border"
+            className="mt-2 p-1 light-border"
             value={workoutDescription}
             onChange={(event) => {
               setWorkoutDescription(event.target.value);
@@ -239,7 +239,7 @@ function EditWorkout() {
                   <div className="flex gap-1 mb-1" key={index}>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
                         type="number"
                         min="1"
                         defaultValue={set.number}
@@ -257,7 +257,8 @@ function EditWorkout() {
                     </div>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
+                        type="number"
                         defaultValue={set.weight}
                         onBlur={(event) => {
                           updateSetField(
@@ -272,7 +273,7 @@ function EditWorkout() {
                     </div>
                     <div className="flex-1">
                       <input
-                        className="w-full border px-1"
+                        className="w-full light-border px-1 py-0"
                         type="number"
                         min="0"
                         defaultValue={set.reps}

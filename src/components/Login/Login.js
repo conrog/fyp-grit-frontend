@@ -37,6 +37,7 @@ const Login = ({ setToken }) => {
               });
 
               setToken(data);
+              window.location.reload();
             } catch (error) {
               setErrorMessage(error.response.data);
               setShowError(true);
@@ -45,14 +46,14 @@ const Login = ({ setToken }) => {
           }}
         >
           {({ isSubmitting, errors, touched }) => (
-            <Form className="m-2 p-4 border-2 rounded bg-white flex flex-col">
+            <Form className="m-2 p-4 card flex flex-col">
               <p className="pb-2 border-b-2 font-semibold">Log In</p>
               <label htmlFor="username">Username:</label>
               <Field
                 className={
                   errors.username && touched.username
-                    ? "w-full border border-red-500 p-1 shadow"
-                    : "w-full border p-1 shadow"
+                    ? "w-full border border-red-500 p-1"
+                    : "w-full border p-1 light-border"
                 }
                 type="text"
                 id="username"
@@ -67,8 +68,8 @@ const Login = ({ setToken }) => {
               <Field
                 className={
                   errors.password && touched.password
-                    ? "w-full border border-red-500 p-1 shadow"
-                    : "w-full border p-1 shadow"
+                    ? "w-full border border-red-500 p-1"
+                    : "w-full border p-1 light-border"
                 }
                 type="password"
                 id="password"

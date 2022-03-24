@@ -119,7 +119,7 @@ class Dashboard extends PureComponent {
   render() {
     return (
       <div>
-        <h1 className="mb-1">Dashboard</h1>
+        <h1 className="mb-1 font-semibold">Dashboard</h1>
         <h2 className="card rounded-b-none p-2 font-semibold text-lg">
           {this.state.graphType === "volume"
             ? "Volume Per Workout"
@@ -173,7 +173,7 @@ class Dashboard extends PureComponent {
             <p className="p-1 font-semibold">Graph Type:</p>
             <div className="flex-1">
               <select
-                className="p-1 border rounded w-full"
+                className="p-1 light-border rounded w-full"
                 onChange={(event) => {
                   this.setState({ graphType: event.target.value });
                 }}
@@ -188,7 +188,7 @@ class Dashboard extends PureComponent {
               <p className="p-1 font-semibold">Graph Data:</p>
               <div className="flex-1">
                 <select
-                  className="p-1 border rounded w-full"
+                  className="p-1 light-border rounded w-full"
                   onChange={(event) => {
                     this.updateVolumeGraph(event.target.value);
                   }}
@@ -212,7 +212,7 @@ class Dashboard extends PureComponent {
             Recent Workouts
           </h2>
           <input
-            className="card p-1  w-full  md:w-4/12"
+            className="card p-1  w-full light-border  md:w-4/12"
             type="text"
             placeholder="Search..."
             onChange={(event) => {
