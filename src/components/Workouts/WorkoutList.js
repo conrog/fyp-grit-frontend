@@ -162,6 +162,7 @@ class WorkoutList extends React.Component {
                 <div className="flex gap-2">
                   <Link
                     className="font-semibold text-xl flex-auto hover:text-blue-600 cursor-pointer"
+                    title={`View ${workout.workout_name}`}
                     to={`/workouts/${workout.workout_id}`}
                     state={{ workout }}
                   >
@@ -169,6 +170,7 @@ class WorkoutList extends React.Component {
                   </Link>
                   <Link
                     className="w-6 h-6 hover:text-blue-600"
+                    title={`Edit ${workout.workout_name}`}
                     to={`/workouts/${workout.workout_id}/edit`}
                     state={{ workout }}
                   >
@@ -219,7 +221,10 @@ class WorkoutList extends React.Component {
                     KG
                   </p>
                   <button
-                    title={this.ifLikedWorkout(workout) ? "Unlike" : "Like"}
+                    title={
+                      (this.ifLikedWorkout(workout) ? "Unlike" : "Like") +
+                      ` ${workout.workout_name}`
+                    }
                     className="hover:text-blue-600 font-semibold p-1 cursor-pointer rounded"
                     onClick={() => {
                       if (!this.ifLikedWorkout(workout)) {
