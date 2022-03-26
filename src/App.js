@@ -12,6 +12,7 @@ import {
 import ViewWorkout from "./components/Workouts/ViewWorkout";
 import EditWorkout from "./components/Workouts/EditWorkout";
 import NavBar from "./components/NavBar";
+import Users from "./components/Social/Users";
 
 class App extends React.Component {
   constructor(props) {
@@ -83,6 +84,7 @@ class App extends React.Component {
           />
           <div className="mx-auto px-1 max-w-4xl min-h-screen mt-2">
             <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
@@ -90,7 +92,7 @@ class App extends React.Component {
               <Route path="/workouts/new" element={<CreateWorkout />} />
               <Route path="/workouts/:id" element={<ViewWorkout />} />
               <Route path="/workouts/:id/edit" element={<EditWorkout />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
           </div>
