@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 function NavBar({ currentUser, logout }) {
   return (
@@ -39,12 +39,12 @@ function NavBar({ currentUser, logout }) {
             </div>
             <ul className="py-1" aria-labelledby="dropdown">
               <li>
-                <a
-                  href="#abc"
+                <Link
                   className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
+                  to={`/users/${currentUser}`}
                 >
                   Profile
-                </a>
+                </Link>
               </li>
               <li>
                 <p

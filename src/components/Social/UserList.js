@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function UserList({ users, searchValue }) {
   const [searchResult] = useState(searchValue);
@@ -10,14 +11,17 @@ function UserList({ users, searchValue }) {
           return (
             <div key={index} className="flex card p-3 mb-2">
               <div className="w-8/12 md:w-10/12">
-                <p className="text-xl font-semibold cursor-pointer hover:text-blue-600">
+                <Link
+                  className="text-xl font-semibold cursor-pointer hover:text-blue-600"
+                  to={`/users/${user.user_name}`}
+                >
                   {user.user_name}
-                </p>
+                </Link>
+                <p className="font-light">{user.name}</p>
                 <p className="font-light">
-                  {user.first_name + " " + user.last_name || "No name provided"}
-                </p>
-                <p className="font-light">
-                  {(user.bio ? user.bio.substr(0, 30) : "No biography") + "..."}
+                  {(user.biography
+                    ? user.biography.substr(0, 30)
+                    : "No biography") + "..."}
                 </p>
               </div>
               <div className="w-4/12 md:w-2/12 flex flex-col">
