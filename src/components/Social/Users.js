@@ -30,7 +30,8 @@ function Users() {
     setLoading(true);
     try {
       const { token } = JSON.parse(sessionStorage.getItem("token"));
-      let { data } = await api.get(`/users/${searchValue.toLowerCase()}`, {
+
+      let { data } = await api.get(`/users?text=${searchValue.toLowerCase()}`, {
         headers: {
           Authorization: "Basic " + token,
         },

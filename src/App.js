@@ -13,6 +13,7 @@ import ViewWorkout from "./components/Workouts/ViewWorkout";
 import EditWorkout from "./components/Workouts/EditWorkout";
 import NavBar from "./components/NavBar";
 import Users from "./components/Social/Users";
+import User from "./components/Social/User";
 
 class App extends React.Component {
   constructor(props) {
@@ -93,6 +94,7 @@ class App extends React.Component {
               <Route path="/workouts/:id" element={<ViewWorkout />} />
               <Route path="/workouts/:id/edit" element={<EditWorkout />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/users/:user_name" element={<User />} />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
           </div>
