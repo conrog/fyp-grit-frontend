@@ -50,7 +50,7 @@ class Workouts extends React.Component {
         </div>
         {this.state.selectValue === "workouts" ? (
           <WorkoutList
-            currentUser={this.props.currentUser}
+            currentUserName={this.props.currentUser.userName}
             searchValue={this.state.searchValue}
           />
         ) : (

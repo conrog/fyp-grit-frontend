@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import api from "../../api/api";
 import dayjs from "dayjs";
 import LoadingSpinner from "../Common/LoadingSpinner";
+import WorkoutList from "../Workouts/WorkoutList";
 
 function User({ currentUserName }) {
   const [user, setUser] = useState({});
@@ -220,6 +221,12 @@ function User({ currentUserName }) {
               </button>
             </div>
           )}
+        </div>
+      )}
+      {currentUserName !== user_name && (
+        <div>
+          <h2 className="mt-2">{user_name}'s Workouts</h2>
+          <WorkoutList username={user_name} currentUserName={currentUserName} />
         </div>
       )}
     </div>
