@@ -32,8 +32,11 @@ class WorkoutList extends React.Component {
 
   async getWorkouts() {
     try {
+      let url = this.props.username
+        ? `/workouts?username=${this.props.username}`
+        : "/workouts";
       const { token } = JSON.parse(sessionStorage.getItem("token"));
-      let res = await api.get("/workouts", {
+      let res = await api.get(url, {
         headers: {
           Authorization: "Basic " + token,
         },
@@ -156,42 +159,62 @@ class WorkoutList extends React.Component {
             let startTime = workout.start_time;
             return (
               <div
-                className="rounded shadow-md p-3 mb-2 bg-white flex flex-col "
+                className="rounded shadow-md p-3 mb-2 bg-white flex flex-col"
                 key={workout.workout_id}
               >
                 <div className="flex gap-2">
                   <Link
-                    className="font-semibold text-xl flex-auto hover:text-blue-600 cursor-pointer"
+                    className="font-semibold text-xl mb-1 flex-auto hover:text-blue-600 cursor-pointer"
                     title={`View ${workout.workout_name}`}
                     to={`/workouts/${workout.workout_id}`}
                     state={{ workout }}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                    }}
                   >
                     {workout.workout_name}
                   </Link>
-                  <Link
-                    className="w-6 h-6 hover:text-blue-600"
-                    title={`Edit ${workout.workout_name}`}
-                    to={`/workouts/${workout.workout_id}/edit`}
-                    state={{ workout }}
-                  >
-                    <PencilAltIcon />
-                  </Link>
-                  <button
-                    className="w-6 h-6 hover:text-blue-600"
-                    title={`Detele ${workout.workout_name}`}
-                    onClick={() => {
-                      this.setState({
-                        showModal: true,
-                        workoutId: workout.workout_id,
-                        workoutName: workout.workout_name,
-                      });
-                    }}
-                  >
-                    <TrashIcon />
-                  </button>
+                  {this.props.currentUserName === workout.user_name ? (
+                    <div className="flex">
+                      <Link
+                        className="w-6 h-6 hover:text-blue-600"
+                        title={`Edit ${workout.workout_name}`}
+                        to={`/workouts/${workout.workout_id}/edit`}
+                        state={{ workout }}
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        <PencilAltIcon />
+                      </Link>
+                      <button
+                        className="w-6 h-6 hover:text-blue-600"
+                        title={`Detele ${workout.workout_name}`}
+                        onClick={() => {
+                          this.setState({
+                            showModal: true,
+                            workoutId: workout.workout_id,
+                            workoutName: workout.workout_name,
+                          });
+                        }}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="flex font-light">
-                  <p className="flex-auto">{workout.user_name}</p>
+                  <Link
+                    className="flex-auto hover:text-blue-600 cursor-pointer"
+                    to={`/users/${workout.user_name}`}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    {workout.user_name}
+                  </Link>
                   <p>{startTime === null ? "" : startTime.split(" ")[0]}</p>
                 </div>
                 <div className="font-light">
