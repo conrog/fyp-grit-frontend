@@ -94,7 +94,12 @@ class App extends React.Component {
               <Route path="/workouts/:id" element={<ViewWorkout />} />
               <Route path="/workouts/:id/edit" element={<EditWorkout />} />
               <Route path="/users" element={<Users />} />
-              <Route path="/users/:user_name" element={<User />} />
+              <Route
+                path="/users/:user_name"
+                element={
+                  <User currentUserName={this.state.currentUser.userName} />
+                }
+              />
               <Route path="/*" element={<h1>404 Page not found</h1>} />
             </Routes>
           </div>
