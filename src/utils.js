@@ -23,3 +23,8 @@ export function arrayAfterSplice(array, index) {
 export function findIndexOfObjectInarray(array, objectProperty, searchKey) {
   return array.findIndex((element) => element[objectProperty] === searchKey);
 }
+
+export function updateArray(array, index, newItem) {
+  array.splice(index, 1, newItem);
+  return array;
+}
