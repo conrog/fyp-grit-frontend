@@ -70,13 +70,16 @@ function Users() {
           </div>
         </form>
       </div>
-      {/* Users List */}
       <div>
         <h2 className="text-lg font-semibold">Users</h2>
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <UserList users={users} searchValue={searchValue} />
+          <UserList
+            users={users}
+            setUsers={setUsers}
+            searchValue={searchValue}
+          />
         )}
       </div>
     </div>

@@ -27,6 +27,7 @@ class Workouts extends React.Component {
             >
               <option value="workouts">Your Workouts</option>
               <option value="recommendations">Recommended Workouts</option>
+              <option value="recommendations">Followed Users Workouts</option>
             </select>
             <Link
               to="/workouts/new"

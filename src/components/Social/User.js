@@ -5,17 +5,20 @@ import api from "../../api/api";
 import dayjs from "dayjs";
 import LoadingSpinner from "../Common/LoadingSpinner";
 import WorkoutList from "../Workouts/WorkoutList";
+import UserList from "./UserList";
 
 function User({ currentUserName }) {
   const [user, setUser] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [followersLoading, setFollowersLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [biography, setBiography] = useState("");
+  const [users, setUsers] = useState("");
   const { user_name } = useParams();
 
   useEffect(() => {
@@ -41,6 +44,26 @@ function User({ currentUserName }) {
         console.log(error);
       });
   }, [user_name, currentUserName]);
+
+  useEffect(() => {
+    setFollowersLoading(true);
+    const { token } = JSON.parse(sessionStorage.getItem("token"));
+    api
+      .get(`/users/${user_name}/followers`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setFollowersLoading(false);
+      });
+  }, [user_name]);
 
   const handleUpdate = async () => {
     try {
@@ -80,6 +103,20 @@ function User({ currentUserName }) {
     setGender(user.gender);
     setBiography(user.biography);
     setIsEdit(false);
+  };
+
+  const getFollowers = async () => {
+    try {
+      const { token } = await JSON.parse(sessionStorage.getItem("token"));
+      let { data } = await api.get(`/users/${user_name}/followers`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -224,9 +261,23 @@ function User({ currentUserName }) {
         </div>
       )}
       {currentUserName !== user_name && (
-        <div>
-          <h2 className="mt-2">{user_name}'s Workouts</h2>
+        <div className="mt-2">
+          <h2>{user_name}'s Workouts</h2>
           <WorkoutList username={user_name} currentUserName={currentUserName} />
+        </div>
+      )}
+      {currentUserName === user_name && (
+        <div className="mt-2">
+          <h2 className="text-lg font-semibold">Users That You Follow:</h2>
+          {followersLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <UserList
+              users={users}
+              setUsers={setUsers}
+              noFollowersMessage="You don't follow any users..."
+            />
+          )}
         </div>
       )}
     </div>
