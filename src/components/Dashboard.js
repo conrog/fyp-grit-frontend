@@ -35,13 +35,13 @@ class Dashboard extends PureComponent {
       graphType: "volume",
       firstLoad: false,
       volumeGraphData: [],
-      frequencyGraphData: [],
+      proportionGraphData: [],
     };
 
     this.getWorkouts = this.getWorkouts.bind(this);
     this.createWorkoutLookup = this.createWorkoutLookup.bind(this);
     this.updateVolumeGraph = this.updateVolumeGraph.bind(this);
-    this.updateFrequencyGraph = this.updateFrequencyGraph.bind(this);
+    this.updateProportionGraph = this.updateProportionGraph.bind(this);
   }
 
   async getWorkouts() {
@@ -56,7 +56,7 @@ class Dashboard extends PureComponent {
       this.setState({ workouts: res.data });
       this.createWorkoutLookup();
       this.updateVolumeGraph();
-      this.updateFrequencyGraph();
+      this.updateProportionGraph();
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +99,7 @@ class Dashboard extends PureComponent {
     this.setState({ volumeGraphData: data, selectValue });
   }
 
-  updateFrequencyGraph() {
+  updateProportionGraph() {
     let data = [];
 
     for (const workout in this.state.workoutLookUp) {
@@ -109,7 +109,7 @@ class Dashboard extends PureComponent {
       });
     }
 
-    this.setState({ frequencyGraphData: data });
+    this.setState({ proportionGraphData: data });
   }
 
   componentDidMount() {
@@ -123,7 +123,7 @@ class Dashboard extends PureComponent {
         <h2 className="card rounded-b-none p-2 font-semibold text-lg">
           {this.state.graphType === "volume"
             ? "Volume Per Workout"
-            : "Frequency Per Workout"}
+            : "Proportion of Workouts"}
         </h2>
         <div className=" w-full h-96 card rounded rounded-t-none rounded-b-none p-2">
           {this.state.graphType === "volume" && (
@@ -135,26 +135,26 @@ class Dashboard extends PureComponent {
                   data={this.state.volumeGraphData}
                   name={`${this.state.selectValue} Volume`}
                   line
+                  lineType="fitting"
                   strokeDasharray="6"
                   fill="#3482F6"
-                  isAnimationActive={false}
                 />
                 <Tooltip />
                 <Legend />
               </ScatterChart>
             </ResponsiveContainer>
           )}
-          {this.state.graphType === "frequency" && (
+          {this.state.graphType === "proportion" && (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={500} height={500}>
                 <Pie
                   dataKey="value"
-                  data={this.state.frequencyGraphData}
+                  data={this.state.proportionGraphData}
                   innerRadius={40}
                   outerRadius={125}
                   fill="#82ca9d"
                 >
-                  {this.state.frequencyGraphData.map((entry, index) => (
+                  {this.state.proportionGraphData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -179,7 +179,7 @@ class Dashboard extends PureComponent {
                 }}
               >
                 <option value="volume">Volume</option>
-                <option value="frequency">Frequency</option>
+                <option value="proportion">Proportion</option>
               </select>
             </div>
           </div>
