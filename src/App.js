@@ -85,13 +85,21 @@ class App extends React.Component {
           />
           <div className="mx-auto px-1 max-w-4xl min-h-screen mt-2">
             <Routes>
+              <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
               />
               <Route path="/workouts/new" element={<CreateWorkout />} />
-              <Route path="/workouts/:id" element={<ViewWorkout />} />
+              <Route
+                path="/workouts/:id"
+                element={
+                  <ViewWorkout
+                    currentUserName={this.state.currentUser.userName}
+                  />
+                }
+              />
               <Route path="/workouts/:id/edit" element={<EditWorkout />} />
               <Route path="/users" element={<Users />} />
               <Route
@@ -100,7 +108,7 @@ class App extends React.Component {
                   <User currentUserName={this.state.currentUser.userName} />
                 }
               />
-              <Route path="/*" element={<h1>404 Page not found</h1>} />
+              <Route path="/*" element={<h1>404 Not Found</h1>} />
             </Routes>
           </div>
         </BrowserRouter>

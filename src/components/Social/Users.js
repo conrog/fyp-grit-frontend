@@ -73,7 +73,9 @@ function Users() {
       <div>
         <h2 className="text-lg font-semibold">Users</h2>
         {loading ? (
-          <LoadingSpinner />
+          <div className="card">
+            <LoadingSpinner />
+          </div>
         ) : (
           <UserList
             users={users}

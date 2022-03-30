@@ -52,6 +52,7 @@ const Register = ({ setToken }) => {
               } else {
                 setToken(data);
               }
+              window.location.replace("/dashboard");
             } catch (error) {
               console.log(error);
             }

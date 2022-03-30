@@ -105,25 +105,13 @@ function User({ currentUserName }) {
     setIsEdit(false);
   };
 
-  const getFollowers = async () => {
-    try {
-      const { token } = await JSON.parse(sessionStorage.getItem("token"));
-      let { data } = await api.get(`/users/${user_name}/followers`, {
-        headers: {
-          Authorization: "Basic " + token,
-        },
-      });
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div>
       <h1>Profile</h1>
       {loading ? (
-        <LoadingSpinner />
+        <div className="card">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div className="flex flex-col gap-1 card p-3 mt-2">
           <div className="flex gap-1">
@@ -270,7 +258,9 @@ function User({ currentUserName }) {
         <div className="mt-2">
           <h2 className="text-lg font-semibold">Users That You Follow:</h2>
           {followersLoading ? (
-            <LoadingSpinner />
+            <div className="card">
+              <LoadingSpinner />
+            </div>
           ) : (
             <UserList
               users={users}
