@@ -1,9 +1,9 @@
-function LoadingSpinner() {
+function SmallLoadingSpinner() {
   return (
-    <div className="flex p-3 mb-2 justify-center">
+    <div className="mt-1">
       <svg
         role="status"
-        className="mr-2 w-8 h-8 text-gray-200 animate-spin fill-blue-600"
+        className="mr-2 w-4 h-4 text-white animate-spin fill-blue-600"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -21,4 +21,4 @@ function LoadingSpinner() {
   );
 }
 
-export default LoadingSpinner;
+export default SmallLoadingSpinner;

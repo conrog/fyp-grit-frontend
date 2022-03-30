@@ -37,7 +37,9 @@ const Login = ({ setToken }) => {
               });
 
               setToken(data);
-              window.location.reload();
+              if (window.location.pathname === "/") {
+                window.location.replace("/dashboard");
+              }
             } catch (error) {
               setErrorMessage(error.response.data);
               setShowError(true);
@@ -47,7 +49,9 @@ const Login = ({ setToken }) => {
         >
           {({ isSubmitting, errors, touched }) => (
             <Form className="m-2 p-4 card flex flex-col">
-              <p className="pb-2 border-b-2 font-semibold">Log In</p>
+              <p className="pb-2 border-b-2 font-semibold" data-cy="form-title">
+                Log In
+              </p>
               <label htmlFor="username">Username:</label>
               <Field
                 className={
@@ -87,6 +91,7 @@ const Login = ({ setToken }) => {
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer mb-2 mt-4"
                 type="submit"
                 disabled={isSubmitting}
+                data-cy="login-button"
               >
                 Log In
               </button>

@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import CommentsModal from "../Modals/CommentsModal";
+import api from "../../api/api";
+import SmallLoadingSpinner from "../Common/SmallLoadingSpinner";
 
-function ViewWorkout() {
+function ViewWorkout({ currentUserName }) {
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const { workout } = location.state;
+
+  useEffect(() => {
+    setLoading(true);
+    const { token } = JSON.parse(sessionStorage.getItem("token"));
+    api
+      .get(`/comments/${workout.workout_id}`, {
+        headers: {
+          Authorization: "Basic " + token,
+        },
+      })
+      .then((res) => {
+        setComments([...res.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [workout.workout_id]);
+
   return (
     <div>
       <div className="flex flex-col border text-xl p-2 card">
@@ -26,6 +53,15 @@ function ViewWorkout() {
       <div className="mt-2 p-2 card rounded-b-none">
         <div className="flex">
           <p className=" flex-auto text-xl font-semibold">Exercises</p>
+          <button
+            className="btn flex"
+            disabled={loading}
+            onClick={() => {
+              setShowComments(true);
+            }}
+          >
+            {loading ? <SmallLoadingSpinner /> : comments.length} Comments
+          </button>
         </div>
       </div>
       <div>
@@ -66,6 +102,14 @@ function ViewWorkout() {
           );
         })}
       </div>
+      <CommentsModal
+        showModal={showComments}
+        cancelHandler={() => setShowComments(false)}
+        currentUserName={currentUserName}
+        workoutId={workout.workout_id}
+        comments={comments}
+        setComments={setComments}
+      />
     </div>
   );
 }
