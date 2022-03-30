@@ -18,7 +18,9 @@ function User({ currentUserName }) {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [biography, setBiography] = useState("");
-  const [users, setUsers] = useState("");
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [selectValue, setSelectValue] = useState("following");
   const { user_name } = useParams();
 
   useEffect(() => {
@@ -46,24 +48,48 @@ function User({ currentUserName }) {
   }, [user_name, currentUserName]);
 
   useEffect(() => {
-    setFollowersLoading(true);
-    const { token } = JSON.parse(sessionStorage.getItem("token"));
-    api
-      .get(`/users/${user_name}/followers`, {
-        headers: {
-          Authorization: "Basic " + token,
-        },
-      })
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setFollowersLoading(false);
-      });
-  }, [user_name]);
+    if (user_name === currentUserName) {
+      setFollowersLoading(true);
+      const { token } = JSON.parse(sessionStorage.getItem("token"));
+      api
+        .get(`/users/${user_name}/followers`, {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        })
+        .then((res) => {
+          setFollowers(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setFollowersLoading(false);
+        });
+    }
+  }, [currentUserName, user_name]);
+
+  useEffect(() => {
+    if (user_name === currentUserName) {
+      setFollowersLoading(true);
+      const { token } = JSON.parse(sessionStorage.getItem("token"));
+      api
+        .get(`/users/${user_name}/following`, {
+          headers: {
+            Authorization: "Basic " + token,
+          },
+        })
+        .then((res) => {
+          setFollowing(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setFollowersLoading(false);
+        });
+    }
+  }, [currentUserName, user_name]);
 
   const handleUpdate = async () => {
     try {
@@ -256,16 +282,41 @@ function User({ currentUserName }) {
       )}
       {currentUserName === user_name && (
         <div className="mt-2">
-          <h2 className="text-lg font-semibold">Users That You Follow:</h2>
+          <div className="flex  mb-2">
+            <div className="flex-auto">
+              <h2 className="text-lg font-semibold">
+                Users{" "}
+                {selectValue === "following"
+                  ? "That You Follow"
+                  : "That Follow You"}
+              </h2>
+            </div>
+            <select
+              className="py-0 light-border card"
+              onChange={(event) => {
+                setSelectValue(event.target.value);
+              }}
+            >
+              <option value="following">Following</option>
+              <option value="followers">Followers</option>
+            </select>
+          </div>
+
           {followersLoading ? (
             <div className="card">
               <LoadingSpinner />
             </div>
+          ) : selectValue === "following" ? (
+            <UserList
+              users={following}
+              setUsers={setFollowing}
+              noFollowersMessage="You don't follow any users..."
+            />
           ) : (
             <UserList
-              users={users}
-              setUsers={setUsers}
-              noFollowersMessage="You don't follow any users..."
+              users={followers}
+              setUsers={setFollowers}
+              noFollowersMessage="No users are following you..."
             />
           )}
         </div>
