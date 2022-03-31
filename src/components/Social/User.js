@@ -9,6 +9,7 @@ import UserList from "./UserList";
 
 function User({ currentUserName }) {
   const [user, setUser] = useState({});
+  const [username, setUsername] = useState("");
   const [canEdit, setCanEdit] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ function User({ currentUserName }) {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [biography, setBiography] = useState("");
+  const [isPrivate, setIsPrivate] = useState(true);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const [selectValue, setSelectValue] = useState("following");
@@ -33,13 +35,25 @@ function User({ currentUserName }) {
         },
       })
       .then((res) => {
-        setUser(res.data);
-        setFirstName(res.data.first_name);
-        setLastName(res.data.last_name);
-        setDob(res.data.dob);
-        setGender(res.data.gender);
-        setBiography(res.data.biography);
-        if (res.data.user_name === currentUserName) setCanEdit(true);
+        if (
+          res.data.is_private === false ||
+          (res.data.is_private === true &&
+            currentUserName === res.data.user_name)
+        ) {
+          setUser(res.data);
+          setUsername(res.data.user_name);
+          setFirstName(res.data.first_name);
+          setLastName(res.data.last_name);
+          setDob(res.data.dob);
+          setGender(res.data.gender);
+          setBiography(res.data.biography);
+          setIsPrivate(res.data.is_private);
+          if (res.data.user_name === currentUserName) setCanEdit(true);
+        } else {
+          setUsername(res.data.user_name);
+          setIsPrivate(res.data.is_private);
+        }
+
         setLoading(false);
       })
       .catch((error) => {
@@ -93,7 +107,7 @@ function User({ currentUserName }) {
 
   const handleUpdate = async () => {
     try {
-      let body = { firstName, lastName, dob, gender, biography };
+      let body = { firstName, lastName, dob, gender, biography, isPrivate };
       const { token } = JSON.parse(sessionStorage.getItem("token"));
       await api.post(`/users/${user_name}`, body, {
         headers: {
@@ -107,6 +121,7 @@ function User({ currentUserName }) {
         dob,
         gender,
         biography,
+        is_private: isPrivate,
       });
       toast.success(`Profile updated!`, {
         position: "bottom-right",
@@ -128,6 +143,7 @@ function User({ currentUserName }) {
     setDob(user.dob);
     setGender(user.gender);
     setBiography(user.biography);
+    setIsPrivate(user.is_private);
     setIsEdit(false);
   };
 
@@ -137,6 +153,13 @@ function User({ currentUserName }) {
       {loading ? (
         <div className="card">
           <LoadingSpinner />
+        </div>
+      ) : currentUserName !== username && isPrivate === true ? (
+        <div className="card p-3 mt-2">
+          <p className="text-center">
+            <span className="font-semibold">{username}'s</span> account is
+            private!
+          </p>
         </div>
       ) : (
         <div className="flex flex-col gap-1 card p-3 mt-2">
@@ -245,6 +268,30 @@ function User({ currentUserName }) {
               </div>
             )}
           </div>
+          <div className="flex gap-1">
+            <label className="text-lg font-semibold sm:w-2/12 w-4/12 py-1">
+              Profile Type:{" "}
+            </label>
+            {isEdit ? (
+              <select
+                className="light-border p-1 flex-auto"
+                type="text"
+                disabled={isEdit ? false : true}
+                defaultValue={user.is_private ? "private" : "public"}
+                onChange={(event) => {
+                  console.log(event.target.value === "private" ? true : false);
+                  setIsPrivate(event.target.value === "private" ? true : false);
+                }}
+              >
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+            ) : (
+              <p className="invisible-border p-1 flex-auto">
+                {isPrivate === true ? "Private" : "Public"}
+              </p>
+            )}
+          </div>
           {canEdit && !isEdit && (
             <div className="flex-1 mt-2">
               <button
@@ -274,7 +321,7 @@ function User({ currentUserName }) {
           )}
         </div>
       )}
-      {currentUserName !== user_name && (
+      {currentUserName !== user_name && isPrivate !== true && (
         <div className="mt-2">
           <h2>{user_name}'s Workouts</h2>
           <WorkoutList username={user_name} currentUserName={currentUserName} />
