@@ -22,11 +22,13 @@ class App extends React.Component {
     this.state = {
       currentUser: { userId: -1, userName: "" },
       token: "",
+      workoutTemplate: [],
     };
 
     this.setToken = this.setToken.bind(this);
     this.getToken = this.getToken.bind(this);
     this.logout = this.logout.bind(this);
+    this.copyWorkoutTemplate = this.copyWorkoutTemplate.bind(this);
   }
 
   getToken() {
@@ -55,6 +57,11 @@ class App extends React.Component {
       currentUser: { userId: -1, userName: "" },
       token: "",
     });
+  }
+
+  copyWorkoutTemplate(exercises) {
+    console.log(exercises);
+    this.setState({ workoutTemplate: [...exercises] });
   }
 
   componentDidMount() {
@@ -91,12 +98,18 @@ class App extends React.Component {
                 path="/workouts"
                 element={<Workouts currentUser={this.state.currentUser} />}
               />
-              <Route path="/workouts/new" element={<CreateWorkout />} />
+              <Route
+                path="/workouts/new"
+                element={
+                  <CreateWorkout workoutTemplate={this.state.workoutTemplate} />
+                }
+              />
               <Route
                 path="/workouts/:id"
                 element={
                   <ViewWorkout
                     currentUserName={this.state.currentUser.userName}
+                    copyWorkoutTemplate={this.copyWorkoutTemplate}
                   />
                 }
               />
