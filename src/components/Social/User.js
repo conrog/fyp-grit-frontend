@@ -12,8 +12,8 @@ function User({ currentUserName }) {
   const [username, setUsername] = useState("");
   const [canEdit, setCanEdit] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [followersLoading, setFollowersLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [followersLoading, setFollowersLoading] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
@@ -159,6 +159,13 @@ function User({ currentUserName }) {
           <p className="text-center">
             <span className="font-semibold">{username}'s</span> account is
             private!
+          </p>
+        </div>
+      ) : Object.keys(user).length === 0 ? (
+        <div className="card p-3 mt-2">
+          <p className="text-center">
+            User <span className="font-semibold">{user_name}</span> does not
+            exist
           </p>
         </div>
       ) : (
@@ -321,12 +328,17 @@ function User({ currentUserName }) {
           )}
         </div>
       )}
-      {currentUserName !== user_name && isPrivate !== true && (
-        <div className="mt-2">
-          <h2>{user_name}'s Workouts</h2>
-          <WorkoutList username={user_name} currentUserName={currentUserName} />
-        </div>
-      )}
+      {currentUserName !== user_name &&
+        isPrivate !== true &&
+        Object.keys(user).length !== 0 && (
+          <div className="mt-2">
+            <h2>{user_name}'s Workouts</h2>
+            <WorkoutList
+              username={user_name}
+              currentUserName={currentUserName}
+            />
+          </div>
+        )}
       {currentUserName === user_name && (
         <div className="mt-2">
           <div className="flex  mb-2">
