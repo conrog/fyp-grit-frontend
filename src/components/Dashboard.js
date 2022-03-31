@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import api from "../api/api";
 import WorkoutList from "./Workouts/WorkoutList";
+import LoadingSpinner from "./Common/LoadingSpinner";
 
 const COLORS = [
   "#2085ec",
@@ -33,7 +34,7 @@ class Dashboard extends PureComponent {
       selectValue: "",
       searchValue: "",
       graphType: "volume",
-      firstLoad: false,
+      loading: true,
       volumeGraphData: [],
       proportionGraphData: [],
     };
@@ -46,6 +47,7 @@ class Dashboard extends PureComponent {
 
   async getWorkouts() {
     try {
+      this.setState({ loading: true });
       const { token } = JSON.parse(sessionStorage.getItem("token"));
       let res = await api.get("/workouts", {
         headers: {
@@ -55,10 +57,14 @@ class Dashboard extends PureComponent {
 
       this.setState({ workouts: res.data });
       this.createWorkoutLookup();
-      this.updateVolumeGraph();
-      this.updateProportionGraph();
+      if (Object.keys(this.state.workoutLookUp).length > 0) {
+        this.updateVolumeGraph();
+        this.updateProportionGraph();
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
@@ -120,93 +126,116 @@ class Dashboard extends PureComponent {
     return (
       <div>
         <h1 className="mb-1 font-semibold">Dashboard</h1>
-        <h2 className="card rounded-b-none p-2 font-semibold text-lg">
-          {this.state.graphType === "volume"
-            ? "Volume Per Workout"
-            : "Proportion of Workouts"}
-        </h2>
-        <div className=" w-full h-96 card rounded rounded-t-none rounded-b-none p-2">
-          {this.state.graphType === "volume" && (
-            <ResponsiveContainer width="100%" height="100%">
-              <ScatterChart width={500} height={400}>
-                <XAxis dataKey="date" name="Date" />
-                <YAxis dataKey="volume" name="Volume" unit="kg" />
-                <Scatter
-                  data={this.state.volumeGraphData}
-                  name={`${this.state.selectValue} Volume`}
-                  line
-                  lineType="fitting"
-                  strokeDasharray="6"
-                  fill="#3482F6"
-                />
-                <Tooltip />
-                <Legend />
-              </ScatterChart>
-            </ResponsiveContainer>
-          )}
-          {this.state.graphType === "proportion" && (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart width={500} height={500}>
-                <Pie
-                  dataKey="value"
-                  data={this.state.proportionGraphData}
-                  innerRadius={40}
-                  outerRadius={125}
-                  fill="#82ca9d"
-                >
-                  {this.state.proportionGraphData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          )}
-        </div>
-        <div className="card p-2 rounded-t-none flex flex-col md:flex-row gap-1">
-          <div className="flex flex-1">
-            <p className="p-1 font-semibold">Graph Type:</p>
-            <div className="flex-1">
-              <select
-                className="p-1 light-border rounded w-full"
-                onChange={(event) => {
-                  this.setState({ graphType: event.target.value });
-                }}
-              >
-                <option value="volume">Volume</option>
-                <option value="proportion">Proportion</option>
-              </select>
+        {this.state.loading ? (
+          <div className="w-full h-96 card rounded flex p-2">
+            <div className="flex-auto self-center">
+              <LoadingSpinner />
             </div>
           </div>
-          {this.state.graphType === "volume" && (
-            <div className="flex flex-1">
-              <p className="p-1 font-semibold">Graph Data:</p>
-              <div className="flex-1">
-                <select
-                  className="p-1 light-border rounded w-full"
-                  onChange={(event) => {
-                    this.updateVolumeGraph(event.target.value);
-                  }}
-                >
-                  {Object.keys(this.state.workoutLookUp).map(
-                    (workout, index) => {
-                      return (
-                        <option key={index} value={workout}>
-                          {workout}
-                        </option>
-                      );
-                    }
-                  )}
-                </select>
-              </div>
+        ) : Object.keys(this.state.workoutLookUp).length === 0 ? (
+          <div className="w-full h-96 card rounded flex p-2">
+            <div className="flex-auto self-center">
+              <p className="text-center font-semibold">
+                No Training Data to Graph
+              </p>
+              <p className="text-center">
+                Create some workouts and you will be able to view Workout Volume
+                and Workout Proportion
+              </p>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div>
+            <h2 className="card rounded-b-none p-2 font-semibold text-lg">
+              {this.state.graphType === "volume"
+                ? "Volume Per Workout"
+                : "Proportion of Workouts"}
+            </h2>
+            <div className=" w-full h-96 card rounded rounded-t-none rounded-b-none p-2">
+              {this.state.graphType === "volume" && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <ScatterChart width={500} height={400}>
+                    <XAxis dataKey="date" name="Date" />
+                    <YAxis dataKey="volume" name="Volume" unit="kg" />
+                    <Scatter
+                      data={this.state.volumeGraphData}
+                      name={`${this.state.selectValue} Volume`}
+                      line
+                      lineType="fitting"
+                      strokeDasharray="6"
+                      fill="#3482F6"
+                    />
+                    <Tooltip />
+                    <Legend />
+                  </ScatterChart>
+                </ResponsiveContainer>
+              )}
+              {this.state.graphType === "proportion" && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart width={500} height={500}>
+                    <Pie
+                      dataKey="value"
+                      data={this.state.proportionGraphData}
+                      innerRadius={40}
+                      outerRadius={125}
+                      fill="#82ca9d"
+                    >
+                      {this.state.proportionGraphData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+            <div className="card p-2 rounded-t-none flex flex-col md:flex-row gap-1">
+              <div className="flex flex-1">
+                <p className="p-1 font-semibold">Graph Type:</p>
+                <div className="flex-1">
+                  <select
+                    className="p-1 light-border rounded w-full"
+                    onChange={(event) => {
+                      this.setState({ graphType: event.target.value });
+                    }}
+                  >
+                    <option value="volume">Volume</option>
+                    <option value="proportion">Proportion</option>
+                  </select>
+                </div>
+              </div>
+              {this.state.graphType === "volume" && (
+                <div className="flex flex-1">
+                  <p className="p-1 font-semibold">Graph Data:</p>
+                  <div className="flex-1">
+                    <select
+                      className="p-1 light-border rounded w-full"
+                      onChange={(event) => {
+                        this.updateVolumeGraph(event.target.value);
+                      }}
+                    >
+                      {Object.keys(this.state.workoutLookUp).map(
+                        (workout, index) => {
+                          return (
+                            <option key={index} value={workout}>
+                              {workout}
+                            </option>
+                          );
+                        }
+                      )}
+                    </select>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-col md:flex-row mt-2">
           <h2 className="font-semibold text-lg flex-auto p-1 ">
             Recent Workouts
