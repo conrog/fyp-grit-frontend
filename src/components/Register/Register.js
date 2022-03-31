@@ -66,8 +66,8 @@ const Register = ({ setToken }) => {
               <Field
                 className={
                   errors.username && touched.username
-                    ? "w-full border border-red-500 p-1 shadow"
-                    : "w-full border p-1 shadow"
+                    ? "w-full border border-red-500 p-1"
+                    : "w-full light-border p-1 "
                 }
                 type="text"
                 id="username"
@@ -85,8 +85,8 @@ const Register = ({ setToken }) => {
                   (errors.passwordsNotMatching &&
                     touched.confirmPassword &&
                     touched.password)
-                    ? "w-full border border-red-500 p-1 shadow"
-                    : "w-full border p-1 shadow"
+                    ? "w-full border border-red-500 p-1"
+                    : "w-full light-border p-1"
                 }
                 type="password"
                 id="password"
@@ -104,8 +104,8 @@ const Register = ({ setToken }) => {
                   (errors.passwordsNotMatching &&
                     touched.confirmPassword &&
                     touched.password)
-                    ? "w-full border border-red-500 p-1 shadow"
-                    : "w-full border p-1 shadow"
+                    ? "w-full border border-red-500 p-1"
+                    : "w-full light-border p-1"
                 }
                 type="password"
                 id="confirmPassword"
