@@ -40,7 +40,7 @@ const modalStyle = {
   },
 };
 
-function CreateWorkout() {
+function CreateWorkout({ workoutTemplate }) {
   const [workoutName, setWorkoutName] = useState("");
   const [workoutDescription, setWorkoutDescription] = useState("");
   const [exercises, setExercises] = useState([]);
@@ -187,8 +187,19 @@ function CreateWorkout() {
       </div>
 
       <div className="mt-2 p-2 card rounded-b-none">
-        <div className="flex">
+        <div className="flex gap-2">
           <p className=" flex-auto text-xl">Exercises</p>
+          {workoutTemplate.length !== 0 && (
+            <button
+              className="btn"
+              onClick={() => {
+                setWorkoutExercises([...workoutTemplate]);
+              }}
+            >
+              Paste Exercises
+            </button>
+          )}
+
           <button
             className="btn"
             onClick={() => {

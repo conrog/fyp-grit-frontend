@@ -3,8 +3,9 @@ import { useLocation } from "react-router-dom";
 import CommentsModal from "../Modals/CommentsModal";
 import api from "../../api/api";
 import SmallLoadingSpinner from "../Common/SmallLoadingSpinner";
+import { toast } from "react-toastify";
 
-function ViewWorkout({ currentUserName }) {
+function ViewWorkout({ currentUserName, copyWorkoutTemplate }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +52,7 @@ function ViewWorkout({ currentUserName }) {
       </div>
 
       <div className="mt-2 p-2 card rounded-b-none">
-        <div className="flex">
+        <div className="flex gap-2">
           <p className=" flex-auto text-xl font-semibold">Exercises</p>
           <button
             className="btn flex"
@@ -61,6 +62,15 @@ function ViewWorkout({ currentUserName }) {
             }}
           >
             {loading ? <SmallLoadingSpinner /> : comments.length} Comments
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              copyWorkoutTemplate(workout.exercises);
+              toast.success(`${workout.workout_name} has been copied!`);
+            }}
+          >
+            Copy Exercises
           </button>
         </div>
       </div>
