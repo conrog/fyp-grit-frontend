@@ -20,9 +20,9 @@ class Workouts extends React.Component {
       <div>
         <h1 className="mb-2">Workouts</h1>
         <div className="flex flex-col md:flex-row gap-1">
-          <div className="flex flex-col md:flex-row gap-1 ">
+          <div className="basis-6/12 flex flex-col md:flex-row gap-1 ">
             <select
-              className="rounded light-border p-1 card"
+              className="flex-auto rounded light-border p-1 card"
               onChange={this.handleChange}
             >
               <option value="workouts">Your Workouts</option>
@@ -37,7 +37,6 @@ class Workouts extends React.Component {
               Create Workout
             </Link>
           </div>
-
           <div className="flex-1 ">
             <input
               type="text"
