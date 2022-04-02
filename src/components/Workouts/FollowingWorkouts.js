@@ -5,28 +5,28 @@ import { ThumbUpIcon as ThumbUpIconSolid } from "@heroicons/react/solid";
 import LoadingSpinner from "../Common/LoadingSpinner";
 import api from "../../api/api";
 
-class RecommendedWorkoutList extends React.Component {
+class FollowingWorkouts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { recommendedWorkouts: [], likedWorkouts: [], loading: false };
-    this.getRecommendations = this.getRecommendations.bind(this);
+    this.state = { followingWorkouts: [], likedWorkouts: [], loading: false };
+    this.getFollowingWorkouts = this.getFollowingWorkouts.bind(this);
     this.getLikedWorkouts = this.getLikedWorkouts.bind(this);
     this.likeWorkout = this.likeWorkout.bind(this);
     this.unlikeWorkout = this.unlikeWorkout.bind(this);
   }
 
-  async getRecommendations() {
+  async getFollowingWorkouts() {
     try {
       this.setState({ loading: true });
       const { token } = JSON.parse(sessionStorage.getItem("token"));
-      let res = await api.get(`/reccomendations`, {
+      let res = await api.get(`/workouts/following`, {
         headers: {
           Authorization: "Basic " + token,
         },
       });
 
-      this.setState({ recommendedWorkouts: res.data });
+      this.setState({ followingWorkouts: res.data });
     } catch (error) {
       console.log(error);
     } finally {
@@ -99,12 +99,12 @@ class RecommendedWorkoutList extends React.Component {
   }
 
   componentDidMount() {
-    this.getRecommendations();
+    this.getFollowingWorkouts();
     this.getLikedWorkouts();
   }
 
   render() {
-    const filtered = this.state.recommendedWorkouts.filter((workout) =>
+    const filtered = this.state.followingWorkouts.filter((workout) =>
       workout.workout_name
         .toLowerCase()
         .includes(
@@ -215,4 +215,4 @@ class RecommendedWorkoutList extends React.Component {
   }
 }
 
-export default RecommendedWorkoutList;
+export default FollowingWorkouts;

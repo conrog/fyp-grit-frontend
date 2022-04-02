@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import WorkoutList from "./WorkoutList";
 import RecommendedWorkoutList from "./RecommendedWorkoutList";
+import FollowingWorkouts from "./FollowingWorkouts";
 
 class Workouts extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Workouts extends React.Component {
             >
               <option value="workouts">Your Workouts</option>
               <option value="recommendations">Recommended Workouts</option>
-              <option value="recommendations">Followed Users Workouts</option>
+              <option value="following">Followed Users Workouts</option>
             </select>
             <Link
               to="/workouts/new"
@@ -53,8 +54,13 @@ class Workouts extends React.Component {
             currentUserName={this.props.currentUser.userName}
             searchValue={this.state.searchValue}
           />
-        ) : (
+        ) : this.state.selectValue === "recommendations" ? (
           <RecommendedWorkoutList
+            currentUser={this.props.currentUser}
+            searchValue={this.state.searchValue}
+          />
+        ) : (
+          <FollowingWorkouts
             currentUser={this.props.currentUser}
             searchValue={this.state.searchValue}
           />
