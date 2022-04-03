@@ -14,6 +14,7 @@ import EditWorkout from "./components/Workouts/EditWorkout";
 import NavBar from "./components/NavBar";
 import Users from "./components/Social/Users";
 import User from "./components/Social/User";
+import HelpPage from "./components/HelpPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -121,7 +122,18 @@ class App extends React.Component {
                   <User currentUserName={this.state.currentUser.userName} />
                 }
               />
-              <Route path="/*" element={<h1>404 Not Found</h1>} />
+              <Route
+                path="/help"
+                element={
+                  <HelpPage currentUser={this.state.currentUser.userName} />
+                }
+              />
+              <Route
+                path="/*"
+                element={
+                  <HelpPage currentUser={this.state.currentUser.userName} />
+                }
+              />
             </Routes>
           </div>
         </BrowserRouter>
