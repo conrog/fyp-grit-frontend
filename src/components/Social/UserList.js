@@ -53,6 +53,7 @@ function UserList({ users, setUsers, searchValue, noFollowersMessage }) {
                 <Link
                   className="text-xl font-semibold cursor-pointer hover:text-blue-600"
                   to={`/users/${user.user_name}`}
+                  data-cy="username"
                 >
                   {user.user_name}
                 </Link>
@@ -72,6 +73,7 @@ function UserList({ users, setUsers, searchValue, noFollowersMessage }) {
                   onClick={() => {
                     handleClick(user, index);
                   }}
+                  data-cy="follow-button"
                 >
                   {user.followed ? "Unfollow" : "Follow"}
                 </button>
@@ -81,7 +83,7 @@ function UserList({ users, setUsers, searchValue, noFollowersMessage }) {
         })
       ) : (
         <div className="card p-3 mb-2">
-          <p className="text-center">
+          <p className="text-center" data-cy="no-results-message">
             {noFollowersMessage ? (
               noFollowersMessage
             ) : (

@@ -10,7 +10,19 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add("login", (username, password) => {
+  cy.visit("http://localhost:3000/login", {
+    onBeforeLoad: (win) => {
+      win.sessionStorage.clear();
+    },
+  })
+    .get("#username")
+    .type(username)
+    .get("#password")
+    .type(password)
+    .get("[data-cy=login-button]")
+    .click();
+});
 //
 //
 // -- This is a child command --

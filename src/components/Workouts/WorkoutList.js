@@ -165,7 +165,9 @@ class WorkoutList extends React.Component {
           <div className="pt-2 ">
             {filtered.length === 0 ? (
               <div className="card p-3">
-                <p className="text-center">No Workouts Found</p>
+                <p className="text-center" data-cy="no-workouts-message">
+                  No Workouts Found
+                </p>
               </div>
             ) : (
               filtered.map((workout) => {
@@ -184,6 +186,7 @@ class WorkoutList extends React.Component {
                         onClick={() => {
                           window.scrollTo(0, 0);
                         }}
+                        data-cy="workout-name"
                       >
                         {workout.workout_name}
                       </Link>
@@ -210,6 +213,7 @@ class WorkoutList extends React.Component {
                                 workoutName: workout.workout_name,
                               });
                             }}
+                            data-cy="delete-workout"
                           >
                             <TrashIcon />
                           </button>
@@ -225,6 +229,7 @@ class WorkoutList extends React.Component {
                         onClick={() => {
                           window.scrollTo(0, 0);
                         }}
+                        data-cy="workout-username"
                       >
                         {workout.user_name}
                       </Link>
@@ -269,6 +274,7 @@ class WorkoutList extends React.Component {
                             this.unlikeWorkout(workout);
                           }
                         }}
+                        data-cy="like-button"
                       >
                         {this.ifLikedWorkout(workout) ? (
                           <ThumbUpIconSolid className="h-6 w-6 text-blue-500 hover:text-blue-600" />

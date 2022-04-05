@@ -8,7 +8,7 @@ import {
 function HelpPage({ currentUser }) {
   return (
     <div className="mb-4">
-      <h1>Help</h1>
+      <h1 data-cy="page-heading">Help</h1>
       <div className="card mt-2 p-3 flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <h2>What is GRIT ?</h2>
@@ -173,7 +173,8 @@ function HelpPage({ currentUser }) {
             <div className="flex gap-1">
               <div className="flex">
                 <p className="place-self-center">
-                  You can view your profile by clicking{" "}
+                  You can view your profile by clicking <i>Profile</i> in the
+                  dropdown provided by clicking{" "}
                 </p>
               </div>
               <div className="w-8 h-8 rounded-xl cursor-pointer  bg-blue-500 flex hover:bg-blue-700">

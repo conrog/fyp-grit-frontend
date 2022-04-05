@@ -19,7 +19,9 @@ class Workouts extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="mb-2">Workouts</h1>
+        <h1 className="mb-2" data-cy="page-heading">
+          Workouts
+        </h1>
         <div className="flex flex-col md:flex-row gap-1">
           <div className="basis-6/12 flex flex-col md:flex-row gap-1 ">
             <select
@@ -34,6 +36,7 @@ class Workouts extends React.Component {
               to="/workouts/new"
               className="btn text-center"
               title="Create Workout"
+              data-cy="create-workout"
             >
               Create Workout
             </Link>
@@ -46,6 +49,7 @@ class Workouts extends React.Component {
               onChange={(event) => {
                 this.setState({ searchValue: event.target.value });
               }}
+              data-cy="workout-search"
             />
           </div>
         </div>
