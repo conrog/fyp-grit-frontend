@@ -125,7 +125,9 @@ class Dashboard extends PureComponent {
   render() {
     return (
       <div>
-        <h1 className="mb-1 font-semibold">Dashboard</h1>
+        <h1 className="mb-1 font-semibold" data-cy="page-heading">
+          Dashboard
+        </h1>
         {this.state.loading ? (
           <div className="w-full h-96 card rounded flex p-2">
             <div className="flex-auto self-center">
@@ -135,7 +137,7 @@ class Dashboard extends PureComponent {
         ) : Object.keys(this.state.workoutLookUp).length === 0 ? (
           <div className="w-full h-96 card rounded flex p-2">
             <div className="flex-auto self-center">
-              <p className="text-center font-semibold">
+              <p className="text-center font-semibold" data-cy="no-graph-data">
                 No Training Data to Graph
               </p>
               <p className="text-center">
@@ -146,7 +148,10 @@ class Dashboard extends PureComponent {
           </div>
         ) : (
           <div>
-            <h2 className="card rounded-b-none p-2 font-semibold text-lg">
+            <h2
+              className="card rounded-b-none p-2 font-semibold text-lg"
+              data-cy="graph-title"
+            >
               {this.state.graphType === "volume"
                 ? "Volume Per Workout"
                 : "Proportion of Workouts"}
@@ -203,6 +208,7 @@ class Dashboard extends PureComponent {
                     onChange={(event) => {
                       this.setState({ graphType: event.target.value });
                     }}
+                    data-cy="graph-select"
                   >
                     <option value="volume">Volume</option>
                     <option value="proportion">Proportion</option>
@@ -247,6 +253,7 @@ class Dashboard extends PureComponent {
             onChange={(event) => {
               this.setState({ searchValue: event.target.value });
             }}
+            data-cy="search-input"
           />
         </div>
         <WorkoutList searchValue={this.state.searchValue} />

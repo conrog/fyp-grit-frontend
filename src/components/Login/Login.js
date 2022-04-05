@@ -37,8 +37,13 @@ const Login = ({ setToken }) => {
               });
 
               setToken(data);
-              if (window.location.pathname === "/") {
+              if (
+                window.location.pathname === "/" ||
+                window.location.pathname === "/login"
+              ) {
                 window.location.replace("/dashboard");
+              } else {
+                window.location.reload();
               }
             } catch (error) {
               setErrorMessage(error.response.data);
@@ -64,6 +69,7 @@ const Login = ({ setToken }) => {
                 name="username"
               />
               <ErrorMessage
+                data-cy="username-error"
                 name="username"
                 component="div"
                 className="text-red-500 text-sm"
@@ -80,12 +86,18 @@ const Login = ({ setToken }) => {
                 name="password"
               />
               <ErrorMessage
+                data-cy="password-error"
                 name="password"
                 component="div"
                 className="text-red-500 text-sm"
               />
               {showError ? (
-                <p className="pt-2 text-center text-red-500">{errorMessage}</p>
+                <p
+                  data-cy="login-error-message"
+                  className="pt-2 text-center text-red-500"
+                >
+                  {errorMessage}
+                </p>
               ) : null}
               <button
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer mb-2 mt-4"
@@ -97,7 +109,11 @@ const Login = ({ setToken }) => {
               </button>
               <p className="text-center mt-2 ">
                 Need an account?{" "}
-                <Link to="/register" className="text-blue-500">
+                <Link
+                  to="/register"
+                  className="text-blue-500"
+                  data-cy="register-link"
+                >
                   Sign Up
                 </Link>
               </p>

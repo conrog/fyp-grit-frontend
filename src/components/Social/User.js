@@ -149,14 +149,14 @@ function User({ currentUserName }) {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <h1 data-cy="page-heading">Profile</h1>
       {loading ? (
         <div className="card">
           <LoadingSpinner />
         </div>
       ) : currentUserName !== username && isPrivate === true ? (
         <div className="card p-3 mt-2">
-          <p className="text-center">
+          <p className="text-center" data-cy="private-message">
             <span className="font-semibold">{username}'s</span> account is
             private!
           </p>
@@ -187,9 +187,13 @@ function User({ currentUserName }) {
                 type="text"
                 defaultValue={user.first_name}
                 onChange={(event) => setFirstName(event.target.value)}
+                data-cy="first-name-input"
               />
             ) : (
-              <p className="invisible-border p-1 flex-auto">
+              <p
+                className="invisible-border p-1 flex-auto"
+                data-cy="first-name"
+              >
                 {user.first_name || "Not Provided"}
               </p>
             )}
@@ -205,9 +209,10 @@ function User({ currentUserName }) {
                 type="text"
                 defaultValue={user.last_name}
                 onChange={(event) => setLastName(event.target.value)}
+                data-cy="last-name-input"
               />
             ) : (
-              <p className="invisible-border p-1 flex-auto">
+              <p className="invisible-border p-1 flex-auto" data-cy="last-name">
                 {user.last_name || "Not Provided"}
               </p>
             )}
@@ -223,9 +228,10 @@ function User({ currentUserName }) {
                 type="date"
                 defaultValue={user.dob}
                 onChange={(event) => setDob(event.target.value)}
+                data-cy="dob-input"
               />
             ) : (
-              <p className="invisible-border p-1 flex-auto">
+              <p className="invisible-border p-1 flex-auto" data-cy="dob">
                 {user.dob
                   ? dayjs(user.dob).format("DD/MM/YYYY")
                   : "Not Provided"}
@@ -241,16 +247,16 @@ function User({ currentUserName }) {
                 className="light-border p-1 flex-auto"
                 type="text"
                 disabled={isEdit ? false : true}
-                defaultValue={user.gender}
+                defaultValue={user.gender || ""}
                 onChange={(event) => setGender(event.target.value)}
+                data-cy="gender-select"
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
                 <option value="">Not Provided</option>
               </select>
             ) : (
-              <p className="invisible-border p-1 flex-auto">
+              <p className="invisible-border p-1 flex-auto" data-cy="gender">
                 {user.gender || "Not Provided"}
               </p>
             )}
@@ -266,10 +272,11 @@ function User({ currentUserName }) {
                 tpye="text"
                 defaultValue={user.biography}
                 onChange={(event) => setBiography(event.target.value)}
+                data-cy="bio-input"
               />
             ) : (
               <div>
-                <p className="p-1 flex-auto">
+                <p className="p-1 flex-auto" data-cy="bio">
                   {user.biography || "Not Provided"}
                 </p>
               </div>
@@ -289,12 +296,16 @@ function User({ currentUserName }) {
                   console.log(event.target.value === "private" ? true : false);
                   setIsPrivate(event.target.value === "private" ? true : false);
                 }}
+                data-cy="profile-type-select"
               >
                 <option value="private">Private</option>
                 <option value="public">Public</option>
               </select>
             ) : (
-              <p className="invisible-border p-1 flex-auto">
+              <p
+                className="invisible-border p-1 flex-auto"
+                data-cy="profile-type"
+              >
                 {isPrivate === true ? "Private" : "Public"}
               </p>
             )}
@@ -306,6 +317,7 @@ function User({ currentUserName }) {
                 onClick={() => {
                   setIsEdit(true);
                 }}
+                data-cy="edit-profile-button"
               >
                 Edit Profile
               </button>
@@ -313,7 +325,11 @@ function User({ currentUserName }) {
           )}
           {isEdit && (
             <div className="mt-2 gap-1">
-              <button className="btn-secondary" onClick={() => handleCancel()}>
+              <button
+                className="btn-secondary"
+                onClick={() => handleCancel()}
+                data-cy="cancel-button"
+              >
                 Cancel
               </button>{" "}
               <button
@@ -321,6 +337,7 @@ function User({ currentUserName }) {
                 onClick={() => {
                   handleUpdate();
                 }}
+                data-cy="update-button"
               >
                 Update
               </button>
@@ -343,7 +360,7 @@ function User({ currentUserName }) {
         <div className="mt-2">
           <div className="flex  mb-2">
             <div className="flex-auto">
-              <h2 className="text-lg font-semibold">
+              <h2 className="text-lg font-semibold" data-cy="list-title">
                 Users{" "}
                 {selectValue === "following"
                   ? "That You Follow"
@@ -355,6 +372,7 @@ function User({ currentUserName }) {
               onChange={(event) => {
                 setSelectValue(event.target.value);
               }}
+              data-cy="list-select"
             >
               <option value="following">Following</option>
               <option value="followers">Followers</option>

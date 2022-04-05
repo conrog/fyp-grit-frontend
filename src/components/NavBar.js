@@ -8,6 +8,7 @@ function NavBar({ currentUser, logout }) {
         <NavLink
           className="self-center text-2xl font-semibold italic whitespace-nowrap hover:text-blue-600"
           to="/dashboard"
+          data-cy="grit-navbar"
         >
           GRIT
         </NavLink>
@@ -18,6 +19,7 @@ function NavBar({ currentUser, logout }) {
             id="user-menu-button"
             aria-expanded="false"
             data-dropdown-toggle="dropdown"
+            data-cy="profile-dropdown-button"
           >
             <span className="sr-only">Open user menu</span>
             <div className="w-8 h-8 rounded-xl  bg-blue-500 flex hover:bg-blue-700">
@@ -42,6 +44,7 @@ function NavBar({ currentUser, logout }) {
                 <Link
                   className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
                   to={`/users/${currentUser}`}
+                  data-cy="profile-link"
                 >
                   Profile
                 </Link>
@@ -52,6 +55,7 @@ function NavBar({ currentUser, logout }) {
                   onClick={() => {
                     logout();
                   }}
+                  data-cy="sign-out"
                 >
                   Sign out
                 </p>
@@ -108,6 +112,7 @@ function NavBar({ currentUser, logout }) {
                 onClick={() => {
                   window.scrollTo(0, 0);
                 }}
+                data-cy="dashboard-link"
               >
                 Dashboard
               </NavLink>
@@ -123,6 +128,7 @@ function NavBar({ currentUser, logout }) {
                 onClick={() => {
                   window.scrollTo(0, 0);
                 }}
+                data-cy="workouts-link"
               >
                 Workouts
               </NavLink>
@@ -138,6 +144,7 @@ function NavBar({ currentUser, logout }) {
                 onClick={() => {
                   window.scrollTo(0, 0);
                 }}
+                data-cy="social-link"
               >
                 Social
               </NavLink>
@@ -153,6 +160,7 @@ function NavBar({ currentUser, logout }) {
                 onClick={() => {
                   window.scrollTo(0, 0);
                 }}
+                data-cy="help-link"
               >
                 Help
               </NavLink>

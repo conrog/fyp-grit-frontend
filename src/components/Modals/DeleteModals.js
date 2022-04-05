@@ -67,6 +67,7 @@ function DeleteModal({
             onClick={() => {
               deleteHandler(itemId);
             }}
+            data-cy="modal-delete-workout-button"
           >
             Delete
           </button>

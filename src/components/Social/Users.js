@@ -45,7 +45,9 @@ function Users() {
 
   return (
     <div>
-      <h1 className="mb-2">Social</h1>
+      <h1 className="mb-2" data-cy="page-heading">
+        Social
+      </h1>
       <div className="card p-2 mb-2">
         <form className="flex flex-col gap-1">
           <label className="text-lg font-semibold">User Search</label>
@@ -57,6 +59,7 @@ function Users() {
               onChange={(event) => {
                 setSearchValue(event.target.value);
               }}
+              data-cy="user-search-input"
             />
             <input
               type="submit"
@@ -66,6 +69,7 @@ function Users() {
                 event.preventDefault();
                 userSearch(searchValue);
               }}
+              data-cy="search-button"
             />
           </div>
         </form>

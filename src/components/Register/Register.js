@@ -51,6 +51,7 @@ const Register = ({ setToken }) => {
                 setUserExistsError(true);
               } else {
                 setToken(data);
+                window.location.replace("/help");
               }
             } catch (error) {
               console.log(error);
@@ -59,8 +60,10 @@ const Register = ({ setToken }) => {
           }}
         >
           {({ isSubmitting, errors, touched }) => (
-            <Form className="m-2 p-4 border-2 rounded bg-white flex flex-col">
-              <p className="pb-2 border-b-2 font-semibold">Register</p>
+            <Form className="m-2 p-4 card flex flex-col">
+              <p className="pb-2 border-b-2 font-semibold" data-cy="form-title">
+                Register
+              </p>
               <label htmlFor="username">Username:</label>
               <Field
                 className={
@@ -73,6 +76,7 @@ const Register = ({ setToken }) => {
                 name="username"
               />
               <ErrorMessage
+                data-cy="username-error"
                 name="username"
                 component="div"
                 className="text-red-500 text-sm"
@@ -92,6 +96,7 @@ const Register = ({ setToken }) => {
                 name="password"
               />
               <ErrorMessage
+                data-cy="password-error"
                 name="password"
                 component="div"
                 className="text-red-500 text-sm"
@@ -111,6 +116,7 @@ const Register = ({ setToken }) => {
                 name="confirmPassword"
               />
               <ErrorMessage
+                data-cy="confirm-password-error"
                 name="confirmPassword"
                 component="div"
                 className="text-red-500 text-sm"
@@ -118,16 +124,23 @@ const Register = ({ setToken }) => {
               {touched.password &&
               touched.confirmPassword &&
               errors.passwordsNotMatching ? (
-                <div className="text-red-500 text-sm">
+                <div
+                  className="text-red-500 text-sm"
+                  data-cy="password-match-error"
+                >
                   {errors.passwordsNotMatching}
                 </div>
               ) : null}
               {userExistsError ? (
-                <p className="pt-2 text-center text-red-500">
+                <p
+                  className="pt-2 text-center text-red-500"
+                  data-cy="user-exists-error"
+                >
                   {userExistsErrorMessage}
                 </p>
               ) : null}
               <button
+                data-cy="create-account"
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold p-1 rounded shadow cursor-pointer mb-2 mt-4"
                 type="submit"
                 disabled={isSubmitting}
@@ -136,7 +149,11 @@ const Register = ({ setToken }) => {
               </button>
               <p className="text-center mt-2 ">
                 Already have an account?{" "}
-                <Link to="/login" className="text-blue-500">
+                <Link
+                  to="/login"
+                  className="text-blue-500"
+                  data-cy="login-link"
+                >
                   Log in
                 </Link>
               </p>

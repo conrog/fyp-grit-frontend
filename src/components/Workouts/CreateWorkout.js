@@ -139,6 +139,7 @@ function CreateWorkout({ workoutTemplate }) {
             onChange={(event) => {
               setWorkoutName(event.target.value);
             }}
+            data-cy="name-input"
           />
         </label>
         <label className="flex flex-col mt-2">
@@ -149,6 +150,7 @@ function CreateWorkout({ workoutTemplate }) {
             onChange={(event) => {
               setWorkoutDescription(event.target.value);
             }}
+            data-cy="description-input"
           />
         </label>
         <button
@@ -181,6 +183,7 @@ function CreateWorkout({ workoutTemplate }) {
               console.log(error);
             }
           }}
+          data-cy="save-button"
         >
           Save
         </button>

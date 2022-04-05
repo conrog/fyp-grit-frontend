@@ -146,6 +146,7 @@ class App extends React.Component {
           pauseOnFocusLoss
           draggable
           pauseOnHover
+          data-cy="toast"
         />
       </div>
     );
