@@ -61,7 +61,6 @@ class App extends React.Component {
   }
 
   copyWorkoutTemplate(exercises) {
-    console.log(exercises);
     this.setState({ workoutTemplate: [...exercises] });
   }
 

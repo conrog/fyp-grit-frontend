@@ -244,7 +244,6 @@ function EditWorkout() {
                         min="1"
                         defaultValue={set.number}
                         onBlur={(event) => {
-                          console.log(event.target.value);
                           updateSetField(
                             workoutExercises,
                             exercise.name,

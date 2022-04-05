@@ -293,7 +293,6 @@ function User({ currentUserName }) {
                 disabled={isEdit ? false : true}
                 defaultValue={user.is_private ? "private" : "public"}
                 onChange={(event) => {
-                  console.log(event.target.value === "private" ? true : false);
                   setIsPrivate(event.target.value === "private" ? true : false);
                 }}
                 data-cy="profile-type-select"
