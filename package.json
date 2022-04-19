@@ -1,12 +1,9 @@
 {
-  "name": "recommender-system-frontend",
+  "name": "grit-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^1.0.5",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
     "dayjs": "^1.11.0",
     "env-cmd": "^10.1.0",
@@ -20,8 +17,7 @@
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
     "react-toastify": "^8.2.0",
-    "recharts": "^2.1.9",
-    "web-vitals": "^1.1.2"
+    "recharts": "^2.1.9"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,7 +25,8 @@
     "build:staging": "env-cmd -f .env.production npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
