@@ -6,15 +6,15 @@ import {
   Dashboard,
   Login,
   Workouts,
-  CreateWorkout,
   Register,
+  CreateWorkout,
+  ViewWorkout,
+  EditWorkout,
+  Users,
+  User,
+  HelpPage,
+  NavBar,
 } from "./components";
-import ViewWorkout from "./components/Workouts/ViewWorkout";
-import EditWorkout from "./components/Workouts/EditWorkout";
-import NavBar from "./components/NavBar";
-import Users from "./components/Social/Users";
-import User from "./components/Social/User";
-import HelpPage from "./components/HelpPage";
 
 class App extends React.Component {
   constructor(props) {
